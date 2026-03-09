@@ -7,7 +7,7 @@
 
   "sources": [
     { "id": "magnitt", "nameAr": "ماغنت", "nameEn": "MAGNiTT", "reliability": "trusted", "color": "#3b82f6", "icon": "🟦", "url": "https://magnitt.com" },
-    { "id": "svc", "nameAr": "هيئة الجريء", "nameEn": "SVC", "reliability": "official", "color": "#ef4444", "icon": "🟥", "url": "https://svc.com.sa" },
+    { "id": "svc", "nameAr": "الاستثمار الجريء", "nameEn": "SVC", "reliability": "official", "color": "#ef4444", "icon": "🟥", "url": "https://svc.com.sa" },
     { "id": "monshaat", "nameAr": "منشآت", "nameEn": "Monsha'at", "reliability": "official", "color": "#f97316", "icon": "🟧", "url": "https://monshaat.gov.sa" },
     { "id": "csv", "nameAr": "ملف CSV", "nameEn": "CSV Import", "reliability": "unverified", "color": "#eab308", "icon": "🟨" },
     { "id": "manual", "nameAr": "إدخال يدوي", "nameEn": "Manual", "reliability": "unverified", "color": "#9ca3af", "icon": "⬜" },
