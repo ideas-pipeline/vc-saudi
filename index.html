@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ثاقب — تحليل الاستثمار الجريء</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b10; --bg2: #12131c; --bg3: #1a1c2e; --bg4: #242842;
+  --text: #e8eaf0; --text2: #9ca3bf; --text3: #6b7294;
+  --accent: #6c5ce7; --accent2: #a29bfe;
+  --green: #00cec9; --green2: #55efc4;
+  --red: #ff6b6b; --orange: #f97316; --yellow: #fdcb6e;
+  --blue: #3b82f6; --pink: #fd79a8;
+  --radius: 14px; --radius2: 8px;
+  --sidebar-w: 230px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: var(--sidebar-w); background: var(--bg2); border-left: 1px solid var(--bg3); position: fixed; top: 0; right: 0; height: 100vh; display: flex; flex-direction: column; z-index: 100; }
+.sidebar .logo { padding: 20px; border-bottom: 1px solid var(--bg3); }
+.sidebar .logo h2 { font-size: 1.3em; color: var(--accent2); display: flex; align-items: center; gap: 8px; }
+.sidebar .logo small { color: var(--text3); font-size: .8em; display: block; margin-top: 4px; }
+.sidebar nav { flex: 1; padding: 10px 0; overflow-y: auto; }
+.sidebar nav a { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--text2); text-decoration: none; font-size: .95em; font-weight: 500; cursor: pointer; transition: all .15s; }
+.sidebar nav a:hover, .sidebar nav a.active { background: var(--bg3); color: var(--text); }
+.sidebar nav a .icon { font-size: 1.15em; width: 24px; text-align: center; }
+.sidebar .meta { padding: 14px 20px; border-top: 1px solid var(--bg3); font-size: .78em; color: var(--text3); }
+.sidebar .meta b { color: var(--green); }
+
+/* Main */
+.main { margin-right: var(--sidebar-w); flex: 1; padding: 24px 28px; min-height: 100vh; }
+.page { display: none; }
+.page.active { display: block; }
+.page-title { font-size: 1.5em; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+/* KPI Cards */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.kpi { background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius); padding: 18px; text-align: center; transition: border-color .2s; }
+.kpi:hover { border-color: var(--accent); }
+.kpi .val { font-size: 1.8em; font-weight: 800; }
+.kpi .lbl { font-size: .82em; color: var(--text2); margin-top: 4px; }
+
+/* Cards */
+.card { background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; transition: border-color .2s; }
+.card:hover { border-color: var(--accent); }
+.card h3 { font-size: 1.05em; font-weight: 700; margin-bottom: 6px; }
+.card p { color: var(--text2); font-size: .88em; line-height: 1.6; }
+
+/* Grid layouts */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+
+/* Score bar */
+.score-bar { height: 8px; background: var(--bg4); border-radius: 4px; overflow: hidden; flex: 1; }
+.score-fill { height: 100%; border-radius: 4px; transition: width .4s; }
+.score-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: .85em; }
+.score-row .lbl { width: 90px; color: var(--text2); }
+.score-row .num { width: 30px; text-align: center; font-weight: 700; }
+
+/* Tags */
+.tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: .75em; font-weight: 600; }
+.tag-high { background: rgba(0,206,201,.15); color: var(--green); }
+.tag-medium { background: rgba(253,203,110,.15); color: var(--yellow); }
+.tag-low { background: rgba(249,115,22,.15); color: var(--orange); }
+.tag-avoid { background: rgba(255,107,107,.15); color: var(--red); }
+.source-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-inline-start: 6px; }
+
+/* Table */
+.tbl { width: 100%; border-collapse: collapse; font-size: .88em; }
+.tbl th { background: var(--bg3); padding: 10px 12px; text-align: right; font-weight: 600; color: var(--text2); font-size: .82em; }
+.tbl td { padding: 10px 12px; border-bottom: 1px solid var(--bg3); }
+.tbl tr:hover td { background: var(--bg3); }
+.tbl tr { cursor: pointer; }
+
+/* Risk flags */
+.flag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: .75em; font-weight: 600; margin: 2px; }
+.flag-red { background: rgba(255,107,107,.15); color: var(--red); }
+.flag-orange { background: rgba(249,115,22,.15); color: var(--orange); }
+.flag-yellow { background: rgba(253,203,110,.15); color: var(--yellow); }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.7); z-index: 200; justify-content: center; align-items: flex-start; padding-top: 5vh; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius); width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; padding: 28px; }
+.modal-close { float: left; background: none; border: none; color: var(--text3); font-size: 1.5em; cursor: pointer; }
+.modal-close:hover { color: var(--red); }
+
+/* Filters */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
+.filters select, .filters input { background: var(--bg3); border: 1px solid var(--bg4); color: var(--text); padding: 8px 12px; border-radius: var(--radius2); font-family: 'Tajawal'; font-size: .88em; }
+.filters input { min-width: 200px; }
+
+/* Alerts */
+.alert-list { margin-bottom: 20px; }
+.alert { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius2); margin-bottom: 6px; font-size: .88em; }
+
+/* Import page */
+.import-zone { border: 2px dashed var(--bg4); border-radius: var(--radius); padding: 40px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; margin-bottom: 18px; }
+.import-zone:hover, .import-zone.dragover { border-color: var(--accent); background: var(--bg3); }
+.import-zone input[type=file] { display: none; }
+.import-tabs { display: flex; gap: 0; margin-bottom: 18px; }
+.import-tab { padding: 10px 20px; background: var(--bg2); border: 1px solid var(--bg3); color: var(--text2); cursor: pointer; font-family: 'Tajawal'; font-size: .9em; font-weight: 600; transition: all .15s; }
+.import-tab:first-child { border-radius: 0 var(--radius2) var(--radius2) 0; }
+.import-tab:last-child { border-radius: var(--radius2) 0 0 var(--radius2); }
+.import-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.import-preview { background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius); padding: 16px; margin-top: 14px; max-height: 400px; overflow-y: auto; }
+.import-preview pre { font-size: .82em; color: var(--text2); white-space: pre-wrap; direction: ltr; text-align: left; }
+.form-group { margin-bottom: 14px; }
+.form-group label { display: block; font-size: .88em; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--bg3); border: 1px solid var(--bg4); color: var(--text); padding: 10px; border-radius: var(--radius2); font-family: 'Tajawal'; font-size: .9em; }
+.form-group textarea { min-height: 80px; resize: vertical; }
+.btn { padding: 10px 22px; border: none; border-radius: var(--radius2); cursor: pointer; font-family: 'Tajawal'; font-size: .9em; font-weight: 700; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-success { background: var(--green); color: #000; }
+.import-log { margin-top: 14px; font-size: .85em; }
+.import-log .log-ok { color: var(--green); }
+.import-log .log-warn { color: var(--yellow); }
+.import-log .log-err { color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- ===== PLACEHOLDER STRUCTURE ===== -->
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar"></div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="page active" id="page-dashboard"></div>
+  <div class="page" id="page-sectors"></div>
+  <div class="page" id="page-companies"></div>
+  <div class="page" id="page-opportunities"></div>
+  <div class="page" id="page-reports"></div>
+  <div class="page" id="page-recommendations"></div>
+  <div class="page" id="page-sources"></div>
+  <div class="page" id="page-import"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+// ══════════════════════════════════════
+// CHUNK 2: SIDEBAR + NAVIGATION
+// ══════════════════════════════════════
+
+function renderSidebar() {
+  const pages = [
+    { id: 'dashboard', icon: '📊', label: 'لوحة التحكم' },
+    { id: 'sectors', icon: '🏷️', label: 'القطاعات' },
+    { id: 'companies', icon: '🏢', label: 'الشركات' },
+    { id: 'opportunities', icon: '💎', label: 'الفرص' },
+    { id: 'reports', icon: '📄', label: 'التقارير' },
+    { id: 'recommendations', icon: '👑', label: 'التوصيات التنفيذية' },
+    { id: 'sources', icon: '📁', label: 'مصادر البيانات' },
+    { id: 'import', icon: '📥', label: 'استيراد بيانات' }
+  ];
+
+  document.getElementById('sidebar').innerHTML = `
+    <div class="logo">
+      <h2>🔭 ثاقب</h2>
+      <small>تحليل الاستثمار الجريء — السعودية</small>
+    </div>
+    <nav>
+      ${pages.map(p => `<a data-page="${p.id}" onclick="showPage('${p.id}')" class="${p.id === 'dashboard' ? 'active' : ''}">
+        <span class="icon">${p.icon}</span> ${p.label}
+      </a>`).join('')}
+    </nav>
+    <div class="meta">
+      <div>شركات: <b>${DATA.companies.length}</b> | جولات: <b>${DATA.rounds.length}</b></div>
+      <div style="margin-top:4px">آخر تحديث: ${formatDate(DATA.meta.lastUpdated)}</div>
+    </div>
+  `;
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+  document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+
+  // Render on demand
+  const renderers = {
+    dashboard: renderDashboard,
+    sectors: renderSectors,
+    companies: renderCompanies,
+    opportunities: renderOpportunities,
+    reports: renderReports,
+    recommendations: renderRecommendations,
+    sources: renderSources,
+    import: renderImport
+  };
+  if (renderers[pageId]) renderers[pageId]();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+// ══════════════════════════════════════
+// CHUNK 3: DASHBOARD
+// ══════════════════════════════════════
+
+function renderDashboard() {
+  const total = getTotalFunding();
+  const highOps = getHighOpportunities();
+  const recent = getRecentRounds(5);
+  const topSec = getTopSectors(5);
+  const flags = getAllRiskFlags();
+
+  document.getElementById('page-dashboard').innerHTML = `
+    <div class="page-title">📊 لوحة التحكم</div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="val" style="color:var(--accent2)">${DATA.companies.length}</div><div class="lbl">شركة ناشئة</div></div>
+      <div class="kpi"><div class="val" style="color:var(--blue)">${DATA.rounds.length}</div><div class="lbl">جولة تمويل</div></div>
+      <div class="kpi"><div class="val" style="color:var(--green)">${formatMoney(total)}</div><div class="lbl">إجمالي التمويل</div></div>
+      <div class="kpi"><div class="val" style="color:var(--yellow)">${DATA.sectors.length}</div><div class="lbl">قطاع</div></div>
+      <div class="kpi"><div class="val" style="color:var(--green2)">${highOps.length}</div><div class="lbl">فرصة جاذبة 🟢</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>🕐 آخر الجولات</h3>
+        <table class="tbl" style="margin-top:10px">
+          <thead><tr><th>الشركة</th><th>النوع</th><th>المبلغ</th><th>التاريخ</th></tr></thead>
+          <tbody>
+            ${recent.map(r => {
+              const co = DATA.companies.find(c => c.id === r.companyId);
+              return `<tr onclick="showCompanyModal('${r.companyId}')">
+                <td>${co ? co.nameAr : r.companyId}</td>
+                <td>${getStageAr(r.type)}</td>
+                <td>${formatMoney(r.amountUSD)}</td>
+                <td style="color:var(--text3)">${formatDate(r.date)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>⭐ أعلى القطاعات تقييماً</h3>
+        <div style="margin-top:12px">
+          ${topSec.map(s => `
+            <div class="score-row">
+              <span class="lbl">${s.icon} ${s.nameAr}</span>
+              ${scoreBar(s.scoring.totalScore)}
+              <span class="num">${s.scoring.totalScore}</span>
+              <span>${getRatingEmoji(s.scoring.rating)}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>💎 أبرز الفرص</h3>
+        <div style="margin-top:10px">
+          ${getTopCompanies(5).map(c => `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bg3);cursor:pointer" onclick="showCompanyModal('${c.id}')">
+              <div>
+                <div><span style="font-weight:700">${c.nameAr}</span> <span style="color:var(--text3);font-size:.8em;margin-right:8px">${getSector(c.sectorId)?.icon || ''} ${getSector(c.sectorId)?.nameAr || ''}</span> ${sourceBadge(c.source,'sm')}</div>
+                <div style="font-size:.78em;color:var(--text3);margin-top:2px">${explainCompanyScore(c).substring(0, 80)}${explainCompanyScore(c).length > 80 ? '...' : ''}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span style="font-weight:700">${c.scoring.totalScore}</span>
+                <span>${getRatingEmoji(c.scoring.rating)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🚩 تنبيهات (${flags.length})</h3>
+        <div class="alert-list" style="margin-top:10px;max-height:250px;overflow-y:auto">
+          ${flags.length === 0 ? '<p style="color:var(--text3)">لا تنبيهات ✅</p>' :
+            flags.map(f => {
+              const entityObj = f.entityType === 'company' ? DATA.companies.find(c => c.nameAr === f.entity) : DATA.sectors.find(s => s.nameAr === f.entity);
+              const srcHtml = entityObj && entityObj.source ? sourceBadge(entityObj.source, 'sm') : '';
+              return `<div class="alert">
+                <span class="flag flag-${f.type}">${f.icon || '⚠️'} ${f.label}</span>
+                <span style="color:var(--text3);font-size:.82em">${f.entity} (${f.entityType === 'company' ? 'شركة' : 'قطاع'})</span>
+                ${srcHtml}
+              </div>`;
+            }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderRecommendations() {
+  const topSectors = getTopSectors(3);
+  const topCompanies = getTopCompanies(5);
+  const gaps = getMarketGaps();
+  const crowded = getCrowdedSectors();
+  const undervalued = getUndervaluedCompanies();
+  const risky = getRiskyBets();
+  const allFlags = getAllRiskFlags();
+  const redFlags = allFlags.filter(f => f.type === 'red');
+  const orangeFlags = allFlags.filter(f => f.type === 'orange');
+
+  document.getElementById('page-recommendations').innerHTML = `
+    <div class="page-title">👑 التوصيات التنفيذية</div>
+    <p style="color:var(--text2);margin-bottom:20px;font-size:.95em;line-height:1.7">
+      تحليل مبني على <b>${DATA.companies.length}</b> شركة و <b>${DATA.rounds.length}</b> جولة تمويل من
+      ${DATA.sources.filter(s => DATA.companies.some(c => c.source === s.id)).map(s => `${s.icon} ${s.nameAr}`).join('، ')}.
+      التوصيات مولّدة تلقائياً من نظام التقييم المرجّح.
+    </p>
+
+    <!-- أفضل القطاعات -->
+    <div class="card" style="border-color:var(--green);margin-bottom:16px">
+      <h3 style="color:var(--green);font-size:1.15em">🏆 أفضل القطاعات للاستثمار</h3>
+      <p style="color:var(--text3);font-size:.85em;margin-bottom:14px">القطاعات الأعلى جاذبية بناءً على حجم السوق، النمو، النشاط الاستثماري، والدعم الحكومي</p>
+      ${topSectors.map((s, i) => `
+        <div style="padding:14px;background:var(--bg3);border-radius:var(--radius2);margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span style="font-size:1.3em;font-weight:800;color:${i === 0 ? 'var(--green)' : 'var(--text)'}">${i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'} ${s.icon} ${s.nameAr}</span>
+              <span style="color:var(--text3);font-size:.85em;margin-right:8px">${s.nameEn}</span>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:1.5em;font-weight:800;color:${getRatingColor(s.scoring.rating)}">${s.scoring.totalScore}</div>
+              <span class="tag tag-${s.scoring.rating}" style="font-size:.7em">${getRatingAr(s.scoring.rating)}</span>
+            </div>
+          </div>
+          <div style="margin-top:10px;font-size:.88em;color:var(--text2);line-height:1.7">
+            📝 <b>التحليل:</b> ${explainSectorScore(s)}
+          </div>
+          <div style="margin-top:8px;font-size:.85em;color:var(--text2)">
+            <b>لماذا نوصي بهذا القطاع؟</b>
+            ${s.scoring.tam >= 4 ? ' سوق كبير يستوعب لاعبين جدد.' : ''}
+            ${s.scoring.growth >= 4 ? ' نمو سريع يعني عوائد أعلى على المدى القريب.' : ''}
+            ${s.scoring.vision2030 >= 4 ? ' دعم حكومي وتنظيمي يقلل المخاطر.' : ''}
+            ${s.scoring.competition >= 4 ? ' منافسة محدودة — فرصة تموضع مبكر.' : ''}
+            ${s.scoring.deals >= 4 ? ' نشاط استثماري عالي يدل على ثقة السوق.' : ''}
+          </div>
+          ${s.scoring.riskFlags.length > 0 ? `<div style="margin-top:8px">${s.scoring.riskFlags.map(f => `<span class="flag flag-${f.type}">⚠️ ${f.label}</span>`).join('')}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- أفضل الشركات المرشحة -->
+    <div class="card" style="border-color:var(--accent);margin-bottom:16px">
+      <h3 style="color:var(--accent2);font-size:1.15em">💎 أفضل الشركات المرشحة للاستثمار</h3>
+      <p style="color:var(--text3);font-size:.85em;margin-bottom:14px">الشركات الأعلى تقييماً بناءً على الفريق، النمو، نموذج العمل، والمستثمرين</p>
+      ${topCompanies.map((c, i) => {
+        const sec = getSector(c.sectorId);
+        return `
+        <div style="padding:14px;background:var(--bg3);border-radius:var(--radius2);margin-bottom:10px;cursor:pointer" onclick="showCompanyModal('${c.id}')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span style="font-weight:800;font-size:1.05em">${i + 1}. ${c.nameAr}</span>
+              <span style="color:var(--text3);font-size:.82em;margin-right:6px">${sec?.icon} ${sec?.nameAr} | ${getStageAr(c.stage)} | ${formatMoney(c.scoring.totalFunding)}</span>
+              ${sourceBadge(c.source,'sm')}
+            </div>
+            <div style="font-size:1.4em;font-weight:800;color:${getRatingColor(c.scoring.rating)}">${c.scoring.totalScore} ${getRatingEmoji(c.scoring.rating)}</div>
+          </div>
+          <div style="margin-top:8px;font-size:.88em;color:var(--text2);line-height:1.7">
+            <b>سبب التوصية:</b> ${c.opportunitySummary || explainCompanyScore(c)}
+          </div>
+          ${c.scoring.riskFlags.length > 0 ? `<div style="margin-top:6px">${c.scoring.riskFlags.map(f => `<span class="flag flag-${f.type}">${f.icon} ${f.label}</span>`).join('')}</div>` : ''}
+        </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="grid-2">
+      <!-- الفجوات السوقية -->
+      <div class="card" style="border-color:var(--yellow)">
+        <h3 style="color:var(--yellow);font-size:1.1em">🔍 الفجوات السوقية — فرص غير مستغلة</h3>
+        <p style="color:var(--text3);font-size:.82em;margin-bottom:12px">قطاعات واعدة لكن نشاطها الاستثماري ضعيف — فرصة للدخول المبكر</p>
+        ${gaps.length === 0 ?
+          '<p style="color:var(--text3)">لا فجوات واضحة حالياً — كل القطاعات الكبيرة فيها نشاط ✅</p>' :
+          gaps.map(g => `
+            <div style="padding:10px;background:var(--bg3);border-radius:var(--radius2);margin-bottom:8px;border-right:3px solid var(--yellow)">
+              <div style="font-weight:700">${g.sector.icon} ${g.sector.nameAr} <span style="color:${getRatingColor(g.sector.scoring.rating)};font-size:.85em">(${g.sector.scoring.totalScore})</span></div>
+              <div style="font-size:.85em;color:var(--text2);margin-top:4px">${g.reason}</div>
+            </div>
+          `).join('')
+        }
+      </div>
+
+      <!-- القطاعات المزدحمة -->
+      <div class="card" style="border-color:var(--red)">
+        <h3 style="color:var(--red);font-size:1.1em">⛔ القطاعات المزدحمة — احذر</h3>
+        <p style="color:var(--text3);font-size:.82em;margin-bottom:12px">قطاعات فيها منافسة شديدة — الدخول يحتاج ميزة تنافسية واضحة</p>
+        ${crowded.length === 0 ?
+          '<p style="color:var(--text3)">لا قطاعات مشبعة حالياً ✅</p>' :
+          crowded.map(c => `
+            <div style="padding:10px;background:var(--bg3);border-radius:var(--radius2);margin-bottom:8px;border-right:3px solid var(--red)">
+              <div style="font-weight:700">${c.sector.icon} ${c.sector.nameAr} <span style="color:${getRatingColor(c.sector.scoring.rating)};font-size:.85em">(${c.sector.scoring.totalScore})</span></div>
+              <div style="font-size:.85em;color:var(--text2);margin-top:4px">${c.reason}</div>
+            </div>
+          `).join('')
+        }
+      </div>
+    </div>
+
+    <!-- أبرز المخاطر -->
+    <div class="card" style="margin-top:16px;border-color:var(--orange)">
+      <h3 style="color:var(--orange);font-size:1.1em">🚩 خريطة المخاطر</h3>
+      <p style="color:var(--text3);font-size:.82em;margin-bottom:14px">مخاطر مكتشفة تلقائياً من نظام التقييم — يجب مراجعتها قبل أي قرار استثماري</p>
+
+      <div class="grid-2">
+        <div>
+          <h3 style="font-size:.95em;color:var(--red);margin-bottom:10px">🚩 مخاطر حرجة (${redFlags.length})</h3>
+          ${redFlags.length === 0 ? '<p style="color:var(--text3);font-size:.85em">لا مخاطر حرجة ✅</p>' :
+            redFlags.map(f => {
+              const co = DATA.companies.find(c => c.nameAr === f.entity);
+              return `<div class="alert" style="border-right:3px solid var(--red)">
+                <span class="flag flag-red">${f.icon || '🚩'} ${f.label}</span>
+                <span style="font-size:.82em;color:var(--text3)">${f.entity}</span>
+                ${co ? sourceBadge(co.source,'sm') : ''}
+              </div>`;
+            }).join('')
+          }
+        </div>
+        <div>
+          <h3 style="font-size:.95em;color:var(--orange);margin-bottom:10px">⚠️ تحذيرات (${orangeFlags.length})</h3>
+          ${orangeFlags.length === 0 ? '<p style="color:var(--text3);font-size:.85em">لا تحذيرات ✅</p>' :
+            orangeFlags.map(f => {
+              const co = DATA.companies.find(c => c.nameAr === f.entity);
+              return `<div class="alert" style="border-right:3px solid var(--orange)">
+                <span class="flag flag-orange">${f.icon || '⚠️'} ${f.label}</span>
+                <span style="font-size:.82em;color:var(--text3)">${f.entity}</span>
+                ${co ? sourceBadge(co.source,'sm') : ''}
+              </div>`;
+            }).join('')
+          }
+        </div>
+      </div>
+    </div>
+
+    ${risky.length > 0 ? `
+    <!-- رهانات عالية المخاطر -->
+    <div class="card" style="margin-top:16px;border-color:var(--pink)">
+      <h3 style="color:var(--pink);font-size:1.1em">⚡ رهانات عالية المخاطر / عالية العائد</h3>
+      <p style="color:var(--text3);font-size:.82em;margin-bottom:12px">شركات بدرجة جيدة لكن فيها مخاطر حمراء — قد تكون فرصة لمن يتحمل المخاطر</p>
+      ${risky.map(c => {
+        const sec = getSector(c.sectorId);
+        return `
+        <div style="padding:10px;background:var(--bg3);border-radius:var(--radius2);margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="showCompanyModal('${c.id}')">
+          <div>
+            <span style="font-weight:700">${c.nameAr}</span>
+            <span style="font-size:.82em;color:var(--text3);margin-right:6px">${sec?.icon} ${sec?.nameAr}</span>
+            ${c.scoring.riskFlags.map(f => `<span class="flag flag-${f.type}">${f.icon} ${f.label}</span>`).join('')}
+            ${sourceBadge(c.source,'sm')}
+          </div>
+          <span style="font-weight:800;color:${getRatingColor(c.scoring.rating)}">${c.scoring.totalScore} ${getRatingEmoji(c.scoring.rating)}</span>
+        </div>
+        `;
+      }).join('')}
+    </div>
+    ` : ''}
+
+    <!-- ملاحظات منهجية -->
+    <div class="card" style="margin-top:16px;background:var(--bg3)">
+      <h3 style="font-size:.95em;margin-bottom:8px">📌 ملاحظات منهجية</h3>
+      <ul style="font-size:.85em;color:var(--text2);line-height:2;padding-right:20px">
+        <li>التقييم مبني على <b>7 معايير مرجّحة</b> لكل شركة و <b>6 معايير</b> لكل قطاع</li>
+        <li>بعض المعايير <b>محسوبة تلقائياً</b> (عدد الصفقات، حجم التمويل، جودة المستثمرين) والبقية <b>يدوية</b></li>
+        <li>المخاطر تُكتشف تلقائياً: أي معيار ≤ 2 يولّد علم تحذير — حتى لو الدرجة الإجمالية عالية</li>
+        <li>المصادر: ${DATA.sources.filter(s => DATA.companies.some(c => c.source === s.id)).map(s => `${s.icon} ${s.nameAr} (${s.reliability === 'official' ? 'رسمي' : s.reliability === 'trusted' ? 'موثوق' : 'غير موثق'})`).join(' | ')}</li>
+        <li>هذا التحليل <b>ليس توصية استثمارية نهائية</b> — يجب التحقق المعمق (Due Diligence) قبل أي قرار</li>
+      </ul>
+    </div>
+  `;
+}
+
+function renderImport() {
+  document.getElementById('page-import').innerHTML = `
+    <div class="page-title">📥 استيراد بيانات</div>
+
+    <div class="import-tabs">
+      <div class="import-tab active" onclick="switchImportTab('csv',this)">📄 CSV / JSON</div>
+      <div class="import-tab" onclick="switchImportTab('manual',this)">✏️ إدخال يدوي</div>
+      <div class="import-tab" onclick="switchImportTab('templates',this)">📋 قوالب جاهزة</div>
+    </div>
+
+    <!-- CSV / JSON Import -->
+    <div id="import-csv" class="import-section">
+      <div class="grid-2">
+        <div class="form-group">
+          <label>المصدر</label>
+          <select id="imp-source">
+            <option value="csv">ملف CSV عام</option>
+            <option value="magnitt">MAGNiTT Export</option>
+            <option value="svc">تقرير SVC</option>
+            <option value="monshaat">بيانات منشآت</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>نوع البيانات</label>
+          <select id="imp-type">
+            <option value="companies">شركات</option>
+            <option value="rounds">جولات تمويل</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="import-zone" id="drop-zone" onclick="document.getElementById('file-input').click()"
+           ondragover="event.preventDefault();this.classList.add('dragover')"
+           ondragleave="this.classList.remove('dragover')"
+           ondrop="event.preventDefault();this.classList.remove('dragover');handleFileDrop(event)">
+        <input type="file" id="file-input" accept=".csv,.json,.txt" onchange="handleFileSelect(event)">
+        <div style="font-size:2em;margin-bottom:10px">📁</div>
+        <div style="font-size:1.1em;font-weight:700">اسحب الملف هنا أو اضغط للاختيار</div>
+        <div style="color:var(--text3);font-size:.85em;margin-top:6px">CSV, JSON — حد أقصى 5MB</div>
+      </div>
+
+      <div id="import-preview-area" style="display:none">
+        <h3>👁️ معاينة البيانات</h3>
+        <div style="margin:8px 0;font-size:.88em;color:var(--text2)" id="preview-info"></div>
+        <div class="import-preview" id="preview-table"></div>
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <button class="btn btn-primary" onclick="executeImport()">📥 استيراد</button>
+          <button class="btn" style="background:var(--bg3);color:var(--text)" onclick="clearImport()">إلغاء</button>
+        </div>
+      </div>
+
+      <div class="import-log" id="import-log"></div>
+    </div>
+
+    <!-- Manual Entry -->
+    <div id="import-manual" class="import-section" style="display:none">
+      <div class="card">
+        <h3>✏️ إضافة شركة يدوياً</h3>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="form-group"><label>الاسم بالعربي *</label><input id="m-nameAr" placeholder="مثال: تمارا"></div>
+          <div class="form-group"><label>الاسم بالإنجليزي *</label><input id="m-nameEn" placeholder="e.g. Tamara"></div>
+          <div class="form-group"><label>القطاع</label><select id="m-sector">${DATA.sectors.map(s=>`<option value="${s.id}">${s.icon} ${s.nameAr}</option>`).join('')}</select></div>
+          <div class="form-group"><label>المرحلة</label><select id="m-stage"><option value="pre-seed">Pre-seed</option><option value="seed" selected>Seed</option><option value="series-a">Series A</option><option value="series-b">Series B</option><option value="series-c+">Series C+</option></select></div>
+          <div class="form-group"><label>سنة التأسيس</label><input id="m-founded" type="number" placeholder="2020"></div>
+          <div class="form-group"><label>المدينة</label><input id="m-city" placeholder="الرياض"></div>
+          <div class="form-group"><label>الموقع</label><input id="m-website" placeholder="https://"></div>
+          <div class="form-group"><label>المؤسسون</label><input id="m-founders" placeholder="اسم 1، اسم 2"></div>
+        </div>
+        <div class="form-group"><label>الوصف</label><textarea id="m-desc" placeholder="وصف مختصر عن الشركة..."></textarea></div>
+        <div class="form-group"><label>لماذا فرصة جيدة؟</label><textarea id="m-summary" placeholder="ملخص الفرصة الاستثمارية..."></textarea></div>
+
+        <h3 style="margin:18px 0 10px">📊 التقييم (1-5)</h3>
+        <div class="grid-3">
+          <div class="form-group"><label>المرحلة</label><select id="m-ss">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div class="form-group"><label>نموذج العمل</label><select id="m-sbm">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div class="form-group"><label>الفريق</label><select id="m-st">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div class="form-group"><label>النمو</label><select id="m-sg">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div class="form-group"><label>التوسع</label><select id="m-se">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div class="form-group"><label>التنظيمي</label><select id="m-sr">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===3?'selected':''}>${n}</option>`).join('')}</select></div>
+        </div>
+
+        <button class="btn btn-success" onclick="submitManual()">✅ إضافة الشركة</button>
+        <div id="manual-result" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div id="import-templates" class="import-section" style="display:none">
+      <div class="card">
+        <h3>📋 قوالب استيراد جاهزة</h3>
+        <p style="margin-bottom:14px">حمّل القالب المناسب، عبّيه بالبيانات، ثم ارفعه من تبويب "CSV / JSON"</p>
+
+        <div class="grid-2">
+          <div class="card" style="border-color:var(--blue)">
+            <h3>🟦 قالب MAGNiTT — شركات</h3>
+            <p>الأعمدة المتوقعة من تصدير MAGNiTT</p>
+            <pre style="font-size:.78em;color:var(--text3);margin-top:8px;direction:ltr;text-align:left">Company Name,Company Name (Arabic),Sector,Stage,Founded,City,Website,Employees,Description,Founders</pre>
+            <button class="btn btn-primary" style="margin-top:10px" onclick="downloadTemplate('magnitt-companies')">📥 تحميل القالب</button>
+          </div>
+          <div class="card" style="border-color:var(--blue)">
+            <h3>🟦 قالب MAGNiTT — جولات</h3>
+            <p>بيانات جولات التمويل</p>
+            <pre style="font-size:.78em;color:var(--text3);margin-top:8px;direction:ltr;text-align:left">Company Name,Round Type,Amount (USD),Date,Lead Investor,Investors</pre>
+            <button class="btn btn-primary" style="margin-top:10px" onclick="downloadTemplate('magnitt-rounds')">📥 تحميل القالب</button>
+          </div>
+          <div class="card" style="border-color:var(--red)">
+            <h3>🟥 قالب SVC — شركات</h3>
+            <p>بيانات من تقارير هيئة الجريء</p>
+            <pre style="font-size:.78em;color:var(--text3);margin-top:8px;direction:ltr;text-align:left">اسم الشركة,Company,القطاع,المرحلة,سنة التأسيس,المدينة</pre>
+            <button class="btn btn-primary" style="margin-top:10px" onclick="downloadTemplate('svc-companies')">📥 تحميل القالب</button>
+          </div>
+          <div class="card" style="border-color:var(--text3)">
+            <h3>⬜ قالب عام — شركات</h3>
+            <p>أعمدة بسيطة لأي مصدر</p>
+            <pre style="font-size:.78em;color:var(--text3);margin-top:8px;direction:ltr;text-align:left">nameEn,nameAr,sector,stage,founded,city,website,description</pre>
+            <button class="btn btn-primary" style="margin-top:10px" onclick="downloadTemplate('generic-companies')">📥 تحميل القالب</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Import UI helpers ──
+
+let _pendingImportData = null;
+
+function switchImportTab(tab, el) {
+  document.querySelectorAll('.import-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.import-section').forEach(s => s.style.display = 'none');
+  document.getElementById('import-' + tab).style.display = '';
+}
+
+function handleFileDrop(e) {
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    let parsed;
+
+    if (file.name.endsWith('.json')) {
+      try {
+        const json = JSON.parse(text);
+        parsed = { headers: Object.keys(json[0] || {}), rows: json };
+      } catch { parsed = { headers: [], rows: [], error: 'JSON غير صالح' }; }
+    } else {
+      parsed = parseCSV(text);
+    }
+
+    if (parsed.error) {
+      document.getElementById('import-log').innerHTML = `<div class="log-err">❌ ${parsed.error}</div>`;
+      return;
+    }
+
+    _pendingImportData = parsed;
+    document.getElementById('import-preview-area').style.display = '';
+    document.getElementById('preview-info').textContent = `📊 ${parsed.rows.length} سجل | ${parsed.headers.length} عمود | ${file.name}`;
+
+    // Show preview table
+    const maxPreview = Math.min(parsed.rows.length, 5);
+    let html = '<table class="tbl"><thead><tr>' + parsed.headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+    for (let i = 0; i < maxPreview; i++) {
+      html += '<tr style="cursor:default">' + parsed.headers.map(h => `<td>${parsed.rows[i][h] || ''}</td>`).join('') + '</tr>';
+    }
+    html += '</tbody></table>';
+    if (parsed.rows.length > 5) html += `<div style="color:var(--text3);font-size:.82em;margin-top:8px">... و ${parsed.rows.length - 5} سجل آخر</div>`;
+    document.getElementById('preview-table').innerHTML = html;
+  };
+  reader.readAsText(file);
+}
+
+function executeImport() {
+  if (!_pendingImportData) return;
+  const sourceId = document.getElementById('imp-source').value;
+  const importType = document.getElementById('imp-type').value;
+  const mapKey = FIELD_MAPS[sourceId] ? sourceId : 'generic';
+  const fieldMap = FIELD_MAPS[mapKey][importType === 'companies' ? 'company' : 'round'];
+
+  let log;
+  if (importType === 'companies') {
+    log = importCompanies(_pendingImportData.rows, sourceId, fieldMap);
+  } else {
+    log = importRounds(_pendingImportData.rows, sourceId, fieldMap);
+  }
+
+  document.getElementById('import-log').innerHTML = log.map(l =>
+    `<div class="log-${l.type}">${l.msg}</div>`
+  ).join('');
+
+  _pendingImportData = null;
+  document.getElementById('import-preview-area').style.display = 'none';
+
+  // Refresh sidebar counts
+  renderSidebar();
+}
+
+function clearImport() {
+  _pendingImportData = null;
+  document.getElementById('import-preview-area').style.display = 'none';
+  document.getElementById('import-log').innerHTML = '';
+}
+
+function submitManual() {
+  const result = addCompanyManual({
+    nameAr: document.getElementById('m-nameAr').value,
+    nameEn: document.getElementById('m-nameEn').value,
+    sectorId: document.getElementById('m-sector').value,
+    stage: document.getElementById('m-stage').value,
+    foundedYear: document.getElementById('m-founded').value,
+    city: document.getElementById('m-city').value,
+    website: document.getElementById('m-website').value,
+    founders: document.getElementById('m-founders').value,
+    description: document.getElementById('m-desc').value,
+    summary: document.getElementById('m-summary').value,
+    scoreStage: document.getElementById('m-ss').value,
+    scoreBM: document.getElementById('m-sbm').value,
+    scoreTeam: document.getElementById('m-st').value,
+    scoreGrowth: document.getElementById('m-sg').value,
+    scoreExpansion: document.getElementById('m-se').value,
+    scoreReg: document.getElementById('m-sr').value
+  });
+
+  const el = document.getElementById('manual-result');
+  el.innerHTML = `<div style="color:${result.ok ? 'var(--green)' : 'var(--red)'}">${result.msg}</div>`;
+  if (result.ok) renderSidebar();
+}
+
+function downloadTemplate(type) {
+  const templates = {
+    'magnitt-companies': 'Company Name,Company Name (Arabic),Sector,Stage,Founded,City,Website,Employees,Description,Founders\nTamara,تمارا,Fintech,Series C+,2020,Riyadh,https://tamara.co,350,"BNPL platform",Abdulmajeed Al-Sikhan',
+    'magnitt-rounds': 'Company Name,Round Type,Amount (USD),Date,Lead Investor,Investors\nTamara,Series C+,340000000,2025-01-15,Sanabil Investments,"Sanabil, SNB Capital"',
+    'svc-companies': 'اسم الشركة,Company,القطاع,المرحلة,سنة التأسيس,المدينة\nتمارا,Tamara,تقنية مالية,Series C+,2020,الرياض',
+    'generic-companies': 'nameEn,nameAr,sector,stage,founded,city,website,description\nTamara,تمارا,fintech,series-c+,2020,الرياض,https://tamara.co,BNPL platform'
+  };
+
+  const content = templates[type] || '';
+  const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = type + '.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function renderSectors() {
+  const sorted = [...DATA.sectors].sort((a, b) => b.scoring.totalScore - a.scoring.totalScore);
+
+  document.getElementById('page-sectors').innerHTML = `
+    <div class="page-title">🏷️ القطاعات</div>
+    <div class="filters">
+      <select onchange="filterSectors(this.value)" id="sector-filter">
+        <option value="all">الكل</option>
+        <option value="high">🟢 جاذبية عالية</option>
+        <option value="medium">🟡 جاذبية متوسطة</option>
+        <option value="low">🟠 جاذبية منخفضة</option>
+      </select>
+    </div>
+    <div id="sectors-list">
+      ${sorted.map(s => sectorCard(s)).join('')}
+    </div>
+  `;
+}
+
+function sectorCard(s) {
+  const sc = s.scoring;
+  const labels = [
+    { key: 'tam', label: 'حجم السوق' },
+    { key: 'growth', label: 'النمو' },
+    { key: 'deals', label: 'الصفقات' },
+    { key: 'funding', label: 'التمويل' },
+    { key: 'competition', label: 'المنافسة' },
+    { key: 'vision2030', label: 'رؤية 2030' }
+  ];
+
+  return `
+    <div class="card sector-card" data-rating="${sc.rating}" style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <h3>${s.icon} ${s.nameAr} <span style="color:var(--text3);font-size:.8em;font-weight:400">${s.nameEn}</span></h3>
+          <p>${s.description || ''}</p>
+        </div>
+        <div style="text-align:center;min-width:100px">
+          <div style="font-size:1.8em;font-weight:800;color:${getRatingColor(sc.rating)}">${sc.totalScore}</div>
+          <span class="tag tag-${sc.rating}">${getRatingAr(sc.rating)} ${getRatingEmoji(sc.rating)}</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;margin-top:14px;font-size:.85em;color:var(--text2)">
+        <span>🏢 ${sc.companyCount || 0} شركة</span>
+        <span>💰 ${sc.dealCount || 0} جولة</span>
+        <span>💵 ${formatMoney(sc.totalFunding || 0)}</span>
+      </div>
+      <div style="margin-top:14px">
+        ${labels.map(l => `
+          <div class="score-row">
+            <span class="lbl">${l.label}</span>
+            ${scoreBar(sc[l.key] || 0)}
+            <span class="num">${sc[l.key] || 0}</span>
+          </div>
+        `).join('')}
+      </div>
+      ${sc.riskFlags.length > 0 ? `<div style="margin-top:10px">${sc.riskFlags.map(f => `<span class="flag flag-${f.type}">⚠️ ${f.label}</span>`).join('')}</div>` : ''}
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bg3);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.82em;color:var(--text3)">${explainSectorScore(s)}</span>
+        <button class="btn btn-primary" style="font-size:.75em;padding:4px 12px" onclick="aiAnalyzeSector('${s.id}')">🤖 تحليل</button>
+      </div>
+    </div>
+  `;
+}
+
+function filterSectors(val) {
+  document.querySelectorAll('.sector-card').forEach(el => {
+    el.style.display = (val === 'all' || el.dataset.rating === val) ? '' : 'none';
+  });
+}
+function renderCompanies() {
+  document.getElementById('page-companies').innerHTML = `
+    <div class="page-title">🏢 الشركات</div>
+    <div class="filters">
+      <input type="text" placeholder="🔍 بحث بالاسم..." oninput="filterCompanies()" id="co-search">
+      <select onchange="filterCompanies()" id="co-sector">
+        <option value="all">كل القطاعات</option>
+        ${DATA.sectors.map(s => `<option value="${s.id}">${s.icon} ${s.nameAr}</option>`).join('')}
+      </select>
+      <select onchange="filterCompanies()" id="co-stage">
+        <option value="all">كل المراحل</option>
+        <option value="pre-seed">Pre-seed</option>
+        <option value="seed">Seed</option>
+        <option value="series-a">Series A</option>
+        <option value="series-b">Series B</option>
+        <option value="series-c+">Series C+</option>
+      </select>
+      <select onchange="filterCompanies()" id="co-rating">
+        <option value="all">كل التقييمات</option>
+        <option value="high">🟢 عالية</option>
+        <option value="medium">🟡 متوسطة</option>
+        <option value="low">🟠 منخفضة</option>
+      </select>
+    </div>
+    <table class="tbl" id="companies-table">
+      <thead><tr>
+        <th></th><th>الشركة</th><th>القطاع</th><th>المرحلة</th><th>إجمالي التمويل</th><th>الدرجة</th><th>المخاطر</th><th>المصدر</th>
+      </tr></thead>
+      <tbody id="co-tbody"></tbody>
+    </table>
+  `;
+  populateCompanies();
+}
+
+function populateCompanies() {
+  const sorted = [...DATA.companies].sort((a, b) => b.scoring.totalScore - a.scoring.totalScore);
+  document.getElementById('co-tbody').innerHTML = sorted.map(c => {
+    const sec = getSector(c.sectorId);
+    const src = getSourceInfo(c.source);
+    return `<tr class="co-row" data-id="${c.id}" data-sector="${c.sectorId}" data-stage="${c.stage}" data-rating="${c.scoring.rating}" data-name="${c.nameAr} ${c.nameEn}" onclick="showCompanyModal('${c.id}')">
+      <td>${sec?.icon || ''}</td>
+      <td style="font-weight:700">${c.nameAr} <span style="color:var(--text3);font-size:.8em">${c.nameEn}</span></td>
+      <td>${sec?.nameAr || ''}</td>
+      <td>${getStageAr(c.stage)}</td>
+      <td>${formatMoney(c.scoring.totalFunding)}</td>
+      <td><span style="font-weight:700;color:${getRatingColor(c.scoring.rating)}">${c.scoring.totalScore}</span> ${getRatingEmoji(c.scoring.rating)}</td>
+      <td>${c.scoring.riskFlags.map(f => `<span class="flag flag-${f.type}">${f.icon} ${f.label}</span>`).join('') || '<span style="color:var(--text3)">—</span>'}</td>
+      <td>${sourceBadge(c.source,'sm')}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterCompanies() {
+  const search = document.getElementById('co-search').value.toLowerCase();
+  const sector = document.getElementById('co-sector').value;
+  const stage = document.getElementById('co-stage').value;
+  const rating = document.getElementById('co-rating').value;
+
+  document.querySelectorAll('.co-row').forEach(row => {
+    const matchSearch = !search || row.dataset.name.toLowerCase().includes(search);
+    const matchSector = sector === 'all' || row.dataset.sector === sector;
+    const matchStage = stage === 'all' || row.dataset.stage === stage;
+    const matchRating = rating === 'all' || row.dataset.rating === rating;
+    row.style.display = (matchSearch && matchSector && matchStage && matchRating) ? '' : 'none';
+  });
+}
+function renderOpportunities() {
+  document.getElementById('page-opportunities').innerHTML = `
+    <div class="page-title">💎 الفرص الاستثمارية</div>
+    <div class="filters">
+      <select onchange="filterOpps()" id="opp-rating">
+        <option value="high">🟢 جاذبية عالية فقط</option>
+        <option value="medium-up">🟡 متوسطة وأعلى</option>
+        <option value="all">الكل</option>
+      </select>
+      <select onchange="filterOpps()" id="opp-sector">
+        <option value="all">كل القطاعات</option>
+        ${DATA.sectors.map(s => `<option value="${s.id}">${s.icon} ${s.nameAr}</option>`).join('')}
+      </select>
+      <select onchange="filterOpps()" id="opp-stage">
+        <option value="all">كل المراحل</option>
+        <option value="seed">Seed</option>
+        <option value="series-a">Series A</option>
+        <option value="series-b">Series B</option>
+        <option value="series-c+">Series C+</option>
+      </select>
+      <label style="display:flex;align-items:center;gap:6px;font-size:.88em;color:var(--text2)">
+        <input type="checkbox" id="opp-norisk" onchange="filterOpps()"> استبعاد 🚩 مخاطر حمراء
+      </label>
+    </div>
+    <div id="opps-count" style="font-size:.88em;color:var(--text3);margin-bottom:14px"></div>
+    <div id="opps-list"></div>
+  `;
+  filterOpps();
+}
+
+function filterOpps() {
+  const rating = document.getElementById('opp-rating').value;
+  const sector = document.getElementById('opp-sector').value;
+  const stage = document.getElementById('opp-stage').value;
+  const noRisk = document.getElementById('opp-norisk').checked;
+
+  let companies = [...DATA.companies].sort((a, b) => b.scoring.totalScore - a.scoring.totalScore);
+
+  companies = companies.filter(c => {
+    if (rating === 'high' && c.scoring.rating !== 'high') return false;
+    if (rating === 'medium-up' && (c.scoring.rating === 'low' || c.scoring.rating === 'avoid')) return false;
+    if (sector !== 'all' && c.sectorId !== sector) return false;
+    if (stage !== 'all' && c.stage !== stage) return false;
+    if (noRisk && c.scoring.riskFlags.some(f => f.type === 'red')) return false;
+    return true;
+  });
+
+  document.getElementById('opps-count').textContent = `💎 ${companies.length} فرصة مطابقة`;
+  document.getElementById('opps-list').innerHTML = companies.map(c => {
+    const sec = getSector(c.sectorId);
+    const lr = c.scoring.lastRound;
+    const sc = c.scoring;
+    const checks = [];
+    if (sc.team >= 4) checks.push('✅ فريق قوي');
+    if (sc.growth >= 4) checks.push('✅ نمو ممتاز');
+    if (sc.investorQuality >= 4) checks.push('✅ مستثمرين Tier-1');
+    if (sc.businessModel >= 4) checks.push('✅ نموذج واضح');
+    if (sc.expansion >= 4) checks.push('✅ توسع إقليمي');
+    sc.riskFlags.forEach(f => checks.push(`${f.icon} ${f.label}`));
+
+    return `
+      <div class="card" style="cursor:pointer" onclick="showCompanyModal('${c.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <h3>${c.nameAr} <span style="color:var(--text3);font-weight:400;font-size:.85em">${c.nameEn}</span></h3>
+            <div style="color:var(--text2);font-size:.85em;margin-top:4px">
+              ${sec?.icon || ''} ${sec?.nameAr || ''} | ${getStageAr(c.stage)} ${lr ? `| ${formatMoney(lr.amountUSD)} | ${formatDate(lr.date)}` : ''}
+            </div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:1.6em;font-weight:800;color:${getRatingColor(sc.rating)}">${sc.totalScore}</div>
+            <span class="tag tag-${sc.rating}">${getRatingAr(sc.rating)}</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
+          ${checks.map(ch => `<span style="font-size:.82em;color:var(--text2)">${ch}</span>`).join('')}
+        </div>
+        ${c.opportunitySummary ? `<p style="margin-top:10px;color:var(--green2);font-size:.88em;line-height:1.6">${c.opportunitySummary}</p>` : ''}
+        <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.78em;color:var(--text3)">${explainCompanyScore(c).substring(0, 100)}${explainCompanyScore(c).length > 100 ? '...' : ''}</span>
+          ${sourceBadge(c.source,'sm')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+function renderReports() {
+  const topCo = getTopCompanies(10);
+  const concentration = getSectorConcentration();
+  const srcCov = getSourceCoverage();
+
+  document.getElementById('page-reports').innerHTML = `
+    <div class="page-title">📄 التقارير</div>
+
+    <!-- ملخص السوق -->
+    <div class="card" style="margin-bottom:18px">
+      <h3 style="font-size:1.2em;margin-bottom:14px">📊 ملخص السوق — الاستثمار الجريء في السعودية</h3>
+      <div class="kpi-grid" style="margin-bottom:16px">
+        <div class="kpi"><div class="val" style="color:var(--accent2)">${DATA.companies.length}</div><div class="lbl">شركة ناشئة</div></div>
+        <div class="kpi"><div class="val" style="color:var(--blue)">${DATA.rounds.length}</div><div class="lbl">جولة تمويل</div></div>
+        <div class="kpi"><div class="val" style="color:var(--green)">${formatMoney(getTotalFunding())}</div><div class="lbl">إجمالي التمويل</div></div>
+        <div class="kpi"><div class="val" style="color:var(--yellow)">${DATA.investors.length}</div><div class="lbl">مستثمر</div></div>
+        <div class="kpi"><div class="val" style="color:var(--green2)">${getHighOpportunities().length}</div><div class="lbl">فرصة جاذبة 🟢</div></div>
+      </div>
+
+      <h3 style="margin-bottom:10px">💰 توزيع التمويل حسب القطاع</h3>
+      <div style="margin-bottom:6px">
+        ${concentration.filter(c => c.funding > 0).map(c => `
+          <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
+            <span style="width:120px;font-size:.88em">${c.sector.icon} ${c.sector.nameAr}</span>
+            <div class="score-bar" style="flex:1;height:14px"><div class="score-fill" style="width:${c.pct}%;background:var(--accent)"></div></div>
+            <span style="font-size:.85em;font-weight:700;width:70px">${formatMoney(c.funding)}</span>
+            <span style="font-size:.78em;color:var(--text3);width:40px">${c.pct}%</span>
+          </div>
+        `).join('')}
+      </div>
+
+      <h3 style="margin:18px 0 10px">📁 تغطية المصادر</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        ${Object.values(srcCov).filter(s => s.companies > 0 || s.rounds > 0).map(s => `
+          <div style="background:var(--bg3);padding:10px 16px;border-radius:var(--radius2);font-size:.85em">
+            ${s.source.icon} ${s.source.nameAr}: <b>${s.companies}</b> شركة، <b>${s.rounds}</b> جولة
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- أفضل 10 فرص -->
+    <div class="grid-2">
+      <div class="card">
+        <h3>💎 أفضل 10 فرص</h3>
+        <table class="tbl" style="margin-top:10px">
+          <thead><tr><th>#</th><th>الشركة</th><th>القطاع</th><th>الدرجة</th><th>المصدر</th></tr></thead>
+          <tbody>
+            ${topCo.map((c, i) => {
+              const sec = getSector(c.sectorId);
+              return `<tr onclick="showCompanyModal('${c.id}')">
+                <td style="color:var(--text3)">${i + 1}</td>
+                <td style="font-weight:700">${c.nameAr}</td>
+                <td>${sec?.icon || ''} ${sec?.nameAr || ''}</td>
+                <td><span style="font-weight:700;color:${getRatingColor(c.scoring.rating)}">${c.scoring.totalScore}</span> ${getRatingEmoji(c.scoring.rating)}</td>
+                <td>${sourceBadge(c.source,'sm')}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>🏷️ ترتيب القطاعات</h3>
+        <table class="tbl" style="margin-top:10px">
+          <thead><tr><th>#</th><th>القطاع</th><th>الدرجة</th><th>شركات</th><th>تمويل</th></tr></thead>
+          <tbody>
+            ${getTopSectors(10).map((s, i) => `
+              <tr style="cursor:default">
+                <td style="color:var(--text3)">${i + 1}</td>
+                <td style="font-weight:700">${s.icon} ${s.nameAr}</td>
+                <td><span style="font-weight:700;color:${getRatingColor(s.scoring.rating)}">${s.scoring.totalScore}</span> ${getRatingEmoji(s.scoring.rating)}</td>
+                <td>${s.scoring.companyCount}</td>
+                <td>${formatMoney(s.scoring.totalFunding || 0)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- مقارنة شركتين -->
+    <div class="card">
+      <h3>⚖️ مقارنة شركتين</h3>
+      <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
+        <select id="cmp-a" style="background:var(--bg3);border:1px solid var(--bg4);color:var(--text);padding:8px;border-radius:var(--radius2);font-family:Tajawal;flex:1">
+          ${DATA.companies.map(c => `<option value="${c.id}">${c.nameAr}</option>`).join('')}
+        </select>
+        <span style="color:var(--text3);font-weight:700">vs</span>
+        <select id="cmp-b" style="background:var(--bg3);border:1px solid var(--bg4);color:var(--text);padding:8px;border-radius:var(--radius2);font-family:Tajawal;flex:1">
+          ${DATA.companies.map((c, i) => `<option value="${c.id}" ${i === 1 ? 'selected' : ''}>${c.nameAr}</option>`).join('')}
+        </select>
+        <button onclick="compareCompanies()" style="background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:var(--radius2);cursor:pointer;font-family:Tajawal;font-weight:600">قارن</button>
+        <button onclick="aiCompareCompanies()" style="background:var(--bg4);color:var(--text);border:none;padding:8px 18px;border-radius:var(--radius2);cursor:pointer;font-family:Tajawal;font-weight:600">🤖 مقارنة AI</button>
+      </div>
+      <div id="compare-result" style="margin-top:14px"></div>
+    </div>
+  `;
+}
+
+function compareCompanies() {
+  const a = DATA.companies.find(c => c.id === document.getElementById('cmp-a').value);
+  const b = DATA.companies.find(c => c.id === document.getElementById('cmp-b').value);
+  if (!a || !b) return;
+  const keys = [
+    { key: 'stage', label: 'المرحلة' }, { key: 'businessModel', label: 'نموذج العمل' },
+    { key: 'team', label: 'الفريق' }, { key: 'growth', label: 'النمو' },
+    { key: 'investorQuality', label: 'المستثمرين' }, { key: 'expansion', label: 'التوسع' },
+    { key: 'regulatoryRisk', label: 'التنظيمي' }
+  ];
+  document.getElementById('compare-result').innerHTML = `
+    <table class="tbl">
+      <thead><tr><th>المعيار</th><th>${a.nameAr}</th><th>${b.nameAr}</th><th>الفرق</th></tr></thead>
+      <tbody>
+        ${keys.map(k => {
+          const va = a.scoring[k.key] || 0;
+          const vb = b.scoring[k.key] || 0;
+          const diff = va - vb;
+          const clr = diff > 0 ? 'var(--green)' : diff < 0 ? 'var(--red)' : 'var(--text3)';
+          return `<tr style="cursor:default"><td>${k.label}</td><td style="font-weight:700">${va}</td><td style="font-weight:700">${vb}</td><td style="color:${clr};font-weight:700">${diff > 0 ? '+' : ''}${diff}</td></tr>`;
+        }).join('')}
+        <tr style="cursor:default;background:var(--bg3)"><td style="font-weight:800">الإجمالي</td><td style="font-weight:800;color:${getRatingColor(a.scoring.rating)}">${a.scoring.totalScore}</td><td style="font-weight:800;color:${getRatingColor(b.scoring.rating)}">${b.scoring.totalScore}</td><td style="font-weight:800">${(a.scoring.totalScore - b.scoring.totalScore).toFixed(2)}</td></tr>
+      </tbody>
+    </table>
+  `;
+}
+function renderSources() {
+  // Count per source
+  const counts = {};
+  DATA.sources.forEach(s => counts[s.id] = { companies: 0, rounds: 0, investors: 0 });
+  DATA.companies.forEach(c => { if (counts[c.source]) counts[c.source].companies++; });
+  DATA.rounds.forEach(r => { if (counts[r.source]) counts[r.source].rounds++; });
+  DATA.investors.forEach(i => { if (counts[i.source]) counts[i.source].investors++; });
+
+  const totalItems = DATA.companies.length + DATA.rounds.length + DATA.investors.length;
+
+  document.getElementById('page-sources').innerHTML = `
+    <div class="page-title">📁 مصادر البيانات</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px">
+      ${DATA.sources.map(s => {
+        const c = counts[s.id] || {};
+        const itemCount = (c.companies || 0) + (c.rounds || 0) + (c.investors || 0);
+        const pct = totalItems > 0 ? Math.round((itemCount / totalItems) * 100) : 0;
+        const relMap = { official: 'رسمي', trusted: 'موثوق', community: 'مجتمعي', unverified: 'غير موثق' };
+
+        return `
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <h3>${s.icon} ${s.nameAr} <span style="color:var(--text3);font-size:.8em;font-weight:400">${s.nameEn}</span></h3>
+              <span class="tag" style="background:${s.color}22;color:${s.color}">${relMap[s.reliability] || s.reliability}</span>
+            </div>
+            <div style="display:flex;gap:16px;font-size:.85em;color:var(--text2);margin-bottom:10px">
+              <span>🏢 ${c.companies || 0} شركة</span>
+              <span>💰 ${c.rounds || 0} جولة</span>
+              <span>👥 ${c.investors || 0} مستثمر</span>
+            </div>
+            <div class="score-bar" style="height:10px">
+              <div class="score-fill" style="width:${pct}%;background:${s.color}"></div>
+            </div>
+            <div style="text-align:left;font-size:.78em;color:var(--text3);margin-top:4px">${pct}% من البيانات</div>
+            ${s.url ? `<a href="${s.url}" target="_blank" style="font-size:.82em;color:var(--accent2);display:block;margin-top:8px">${s.nameEn} ↗</a>` : ''}
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>📊 توزيع المصادر</h3>
+      <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+        ${DATA.sources.map(s => {
+          const c = counts[s.id] || {};
+          const itemCount = (c.companies || 0) + (c.rounds || 0) + (c.investors || 0);
+          if (itemCount === 0) return '';
+          const pct = totalItems > 0 ? Math.round((itemCount / totalItems) * 100) : 0;
+          return `<div style="text-align:center">
+            <div style="width:60px;height:60px;border-radius:50%;border:4px solid ${s.color};display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1em;color:${s.color}">${pct}%</div>
+            <div style="font-size:.75em;color:var(--text3);margin-top:4px">${s.nameAr}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+function showCompanyModal(id) {
+  const c = DATA.companies.find(x => x.id === id);
+  if (!c) return;
+  const sec = getSector(c.sectorId);
+  const src = getSourceInfo(c.source);
+  const rounds = getCompanyRounds(c.id);
+  const sc = c.scoring;
+  const labels = [
+    { key: 'stage', label: 'المرحلة' },
+    { key: 'businessModel', label: 'نموذج العمل' },
+    { key: 'team', label: 'الفريق' },
+    { key: 'growth', label: 'النمو' },
+    { key: 'investorQuality', label: 'المستثمرين' },
+    { key: 'expansion', label: 'التوسع' },
+    { key: 'regulatoryRisk', label: 'التنظيمي' }
+  ];
+
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 style="font-size:1.4em;margin-bottom:4px">${c.nameAr} — ${c.nameEn}</h2>
+    <div style="color:var(--text2);font-size:.88em;margin-bottom:16px">
+      ${sec?.icon || ''} ${sec?.nameAr || ''} | ${c.city || ''} | ${c.foundedYear || ''} | ${c.employeeRange || ''} موظف
+    </div>
+
+    <div style="display:flex;gap:14px;margin-bottom:18px">
+      <div class="kpi" style="flex:1">
+        <div class="val" style="color:${getRatingColor(sc.rating)}">${sc.totalScore}</div>
+        <div class="lbl">${getRatingAr(sc.rating)} ${getRatingEmoji(sc.rating)}</div>
+      </div>
+      <div class="kpi" style="flex:1">
+        <div class="val" style="color:var(--blue)">${formatMoney(sc.totalFunding)}</div>
+        <div class="lbl">إجمالي التمويل</div>
+      </div>
+      <div class="kpi" style="flex:1">
+        <div class="val" style="color:var(--accent2)">${sc.roundCount}</div>
+        <div class="lbl">جولات</div>
+      </div>
+    </div>
+
+    ${sc.riskFlags.length > 0 ? `<div style="margin-bottom:14px">${sc.riskFlags.map(f => `<span class="flag flag-${f.type}">${f.icon} ${f.label}</span>`).join('')}</div>` : ''}
+
+    <div style="background:var(--bg3);padding:12px;border-radius:var(--radius2);margin-bottom:16px;font-size:.85em;color:var(--text2);line-height:1.7">
+      📝 ${explainCompanyScore(c)}
+    </div>
+
+    <h3 style="margin-bottom:10px">📊 تفصيل الدرجات</h3>
+    ${labels.map(l => `
+      <div class="score-row">
+        <span class="lbl">${l.label}</span>
+        ${scoreBar(sc[l.key] || 0)}
+        <span class="num">${sc[l.key] || 0}</span>
+      </div>
+    `).join('')}
+
+    <h3 style="margin:18px 0 10px">💰 تاريخ التمويل</h3>
+    ${rounds.length === 0 ? '<p style="color:var(--text3)">لا جولات مسجلة</p>' : `
+      <table class="tbl">
+        <thead><tr><th>النوع</th><th>المبلغ</th><th>التاريخ</th><th>المستثمر القائد</th></tr></thead>
+        <tbody>
+          ${rounds.map(r => {
+            const lead = r.leadInvestorId ? getInvestor(r.leadInvestorId) : null;
+            return `<tr style="cursor:default">
+              <td>📍 ${getStageAr(r.type)}</td>
+              <td style="font-weight:700">${formatMoney(r.amountUSD)}</td>
+              <td style="color:var(--text3)">${formatDate(r.date)}</td>
+              <td>${lead ? lead.nameAr : '—'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    `}
+
+    ${c.founders?.length ? `<h3 style="margin:18px 0 8px">👥 المؤسسون</h3><p>${c.founders.join('، ')}</p>` : ''}
+
+    ${c.opportunitySummary ? `<h3 style="margin:18px 0 8px">💎 لماذا فرصة جيدة؟</h3><p style="color:var(--green2);line-height:1.7">${c.opportunitySummary}</p>` : ''}
+
+    <p style="color:var(--text2);font-size:.85em;line-height:1.7;margin-top:14px">${c.description || ''}</p>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--bg3)">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-primary" style="font-size:.82em;padding:6px 14px" onclick="closeModal();aiAnalyzeCompany('${c.id}')">🤖 تحليل AI</button>
+        <button class="btn" style="font-size:.82em;padding:6px 14px;background:var(--bg4);color:var(--text)" onclick="closeModal();aiInvestmentMemo('${c.id}')">📝 Investment Memo</button>
+        <button class="btn" style="font-size:.82em;padding:6px 14px;background:var(--bg4);color:var(--text)" onclick="closeModal();aiRiskAssessment('${c.id}')">🚩 تقييم المخاطر</button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.82em;color:var(--text3)">المصدر: ${src.nameAr} <span class="source-dot" style="background:${src.color}"></span></span>
+        ${c.website ? `<a href="${c.website}" target="_blank" style="color:var(--accent2);font-size:.85em">${c.nameEn} ↗</a>` : ''}
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+// ══════════════════════════════════════
+// AI ACTION HANDLERS
+// ══════════════════════════════════════
+
+async function aiAnalyzeCompany(id) {
+  const c = DATA.companies.find(x => x.id === id);
+  if (!c) return;
+  showAIResult(`🤖 تحليل — ${c.nameAr}`, '⏳ جاري التحليل...', 'loading');
+  const result = await requestAI(AI_USE_CASES.COMPANY_ANALYSIS, c);
+  showAIResult(`🤖 تحليل — ${c.nameAr}`, result.text, result.source);
+}
+
+async function aiInvestmentMemo(id) {
+  const c = DATA.companies.find(x => x.id === id);
+  if (!c) return;
+  showAIResult(`📝 Investment Memo — ${c.nameAr}`, '⏳ جاري الكتابة...', 'loading');
+  const result = await requestAI(AI_USE_CASES.INVESTMENT_MEMO, c);
+  showAIResult(`📝 Investment Memo — ${c.nameAr}`, result.text, result.source);
+}
+
+async function aiRiskAssessment(id) {
+  const c = DATA.companies.find(x => x.id === id);
+  if (!c) return;
+  showAIResult(`🚩 تقييم المخاطر — ${c.nameAr}`, '⏳ جاري التقييم...', 'loading');
+  const result = await requestAI(AI_USE_CASES.RISK_ASSESSMENT, c);
+  showAIResult(`🚩 تقييم المخاطر — ${c.nameAr}`, result.text, result.source);
+}
+
+async function aiAnalyzeSector(id) {
+  const s = DATA.sectors.find(x => x.id === id);
+  if (!s) return;
+  showAIResult(`🤖 تحليل قطاع — ${s.nameAr}`, '⏳ جاري التحليل...', 'loading');
+  const result = await requestAI(AI_USE_CASES.SECTOR_ANALYSIS, s);
+  showAIResult(`🤖 تحليل قطاع — ${s.nameAr}`, result.text, result.source);
+}
+
+async function aiCompareCompanies() {
+  const a = DATA.companies.find(c => c.id === document.getElementById('cmp-a').value);
+  const b = DATA.companies.find(c => c.id === document.getElementById('cmp-b').value);
+  if (!a || !b) return;
+  showAIResult(`⚖️ مقارنة — ${a.nameAr} vs ${b.nameAr}`, '⏳ جاري المقارنة...', 'loading');
+  const result = await requestAI(AI_USE_CASES.COMPARE_COMPANIES, a, b);
+  showAIResult(`⚖️ مقارنة — ${a.nameAr} vs ${b.nameAr}`, result.text, result.source);
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+loadData().then(() => {
+  renderSidebar();
+  renderDashboard();
+});
+</script>
+</body>
+</html>

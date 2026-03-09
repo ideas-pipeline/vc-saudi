@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "version": "1.0",
+    "lastUpdated": "2026-03-09T19:00:00Z",
+    "currency": "USD"
+  },
+
+  "sources": [
+    { "id": "magnitt", "nameAr": "ماغنت", "nameEn": "MAGNiTT", "reliability": "trusted", "color": "#3b82f6", "icon": "🟦", "url": "https://magnitt.com" },
+    { "id": "svc", "nameAr": "هيئة الجريء", "nameEn": "SVC", "reliability": "official", "color": "#ef4444", "icon": "🟥", "url": "https://svc.com.sa" },
+    { "id": "monshaat", "nameAr": "منشآت", "nameEn": "Monsha'at", "reliability": "official", "color": "#f97316", "icon": "🟧", "url": "https://monshaat.gov.sa" },
+    { "id": "csv", "nameAr": "ملف CSV", "nameEn": "CSV Import", "reliability": "unverified", "color": "#eab308", "icon": "🟨" },
+    { "id": "manual", "nameAr": "إدخال يدوي", "nameEn": "Manual", "reliability": "unverified", "color": "#9ca3af", "icon": "⬜" },
+    { "id": "news-scrape", "nameAr": "أخبار", "nameEn": "News", "reliability": "community", "color": "#22c55e", "icon": "🟩" }
+  ],
+
+  "sectors": [
+    {
+      "id": "fintech", "nameAr": "تقنية مالية", "nameEn": "Fintech", "icon": "💳",
+      "description": "حلول الدفع، التمويل، التأمين، والخدمات المصرفية الرقمية",
+      "scoring": { "tam": 5, "growth": 5, "competition": 2, "vision2030": 5, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "ecommerce", "nameAr": "تجارة إلكترونية", "nameEn": "E-Commerce", "icon": "🛒",
+      "description": "منصات البيع والشراء عبر الإنترنت وتمكين التجار",
+      "scoring": { "tam": 5, "growth": 4, "competition": 2, "vision2030": 4, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "logistics", "nameAr": "لوجستيك", "nameEn": "Logistics", "icon": "🚚",
+      "description": "التوصيل، سلاسل الإمداد، والتخزين الذكي",
+      "scoring": { "tam": 4, "growth": 4, "competition": 3, "vision2030": 5, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "healthtech", "nameAr": "تقنية صحية", "nameEn": "HealthTech", "icon": "🏥",
+      "description": "الصحة الرقمية، التطبيب عن بعد، والسجلات الطبية",
+      "scoring": { "tam": 4, "growth": 4, "competition": 3, "vision2030": 5, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "edtech", "nameAr": "تقنية تعليمية", "nameEn": "EdTech", "icon": "📚",
+      "description": "التعليم الإلكتروني والتدريب والمحتوى التعليمي",
+      "scoring": { "tam": 3, "growth": 3, "competition": 3, "vision2030": 4, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "proptech", "nameAr": "تقنية عقارية", "nameEn": "PropTech", "icon": "🏗️",
+      "description": "حلول العقارات الرقمية وإدارة الأملاك",
+      "scoring": { "tam": 4, "growth": 3, "competition": 4, "vision2030": 4, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "foodtech", "nameAr": "تقنية غذائية", "nameEn": "FoodTech", "icon": "🍽️",
+      "description": "توصيل الطعام، البقالات، والمطابخ السحابية",
+      "scoring": { "tam": 3, "growth": 3, "competition": 2, "vision2030": 3, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "saas", "nameAr": "برمجيات سحابية", "nameEn": "SaaS", "icon": "☁️",
+      "description": "حلول برمجية للشركات (HR, ERP, CRM)",
+      "scoring": { "tam": 4, "growth": 5, "competition": 3, "vision2030": 4, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "entertainment", "nameAr": "ترفيه", "nameEn": "Entertainment", "icon": "🎮",
+      "description": "الألعاب، المحتوى الرقمي، والترفيه",
+      "scoring": { "tam": 3, "growth": 5, "competition": 4, "vision2030": 5, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "cleantech", "nameAr": "تقنية نظيفة", "nameEn": "CleanTech", "icon": "🌱",
+      "description": "الطاقة المتجددة، الاستدامة، وإدارة الموارد",
+      "scoring": { "tam": 4, "growth": 5, "competition": 5, "vision2030": 5, "totalScore": 0, "rating": "" }
+    }
+  ],
+
+  "companies": [
+    {
+      "id": "tamara",
+      "nameAr": "تمارا",
+      "nameEn": "Tamara",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "series-c+",
+      "foundedYear": 2020,
+      "city": "الرياض",
+      "website": "https://tamara.co",
+      "employeeRange": "201-500",
+      "description": "منصة اشترِ الآن وادفع لاحقاً (BNPL) — الأكبر في المنطقة",
+      "founders": ["عبدالمجيد الصيخان", "تركي بن زرعة"],
+      "tags": ["BNPL", "payments", "B2C"],
+      "scoring": {
+        "stage": 5, "businessModel": 5, "team": 5, "growth": 5,
+        "expansion": 4, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "أكبر لاعب BNPL في المنطقة، نمو +100% سنوياً، توسع خليجي نشط، حاصل على ترخيص SAMA",
+      "source": "magnitt",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "salla",
+      "nameAr": "سلة",
+      "nameEn": "Salla",
+      "logo": "",
+      "sectorId": "ecommerce",
+      "stage": "series-b",
+      "foundedYear": 2016,
+      "city": "الرياض",
+      "website": "https://salla.sa",
+      "employeeRange": "201-500",
+      "description": "منصة تمكّن التجار من إنشاء متاجر إلكترونية بسهولة — +100K متجر",
+      "founders": ["صالح المهدي"],
+      "tags": ["marketplace", "SME", "B2B"],
+      "scoring": {
+        "stage": 4, "businessModel": 5, "team": 4, "growth": 3,
+        "expansion": 3, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "المنصة الأولى للتجارة الإلكترونية للتجار السعوديين، +100K متجر، نموذج SaaS واضح",
+      "source": "magnitt",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "nana",
+      "nameAr": "نعناع",
+      "nameEn": "Nana",
+      "logo": "",
+      "sectorId": "foodtech",
+      "stage": "series-c+",
+      "foundedYear": 2016,
+      "city": "الرياض",
+      "website": "https://nana.sa",
+      "employeeRange": "501+",
+      "description": "منصة توصيل بقالات ومستلزمات يومية — تغطي أكثر من 20 مدينة",
+      "founders": ["سامي الحلوة"],
+      "tags": ["delivery", "grocery", "B2C"],
+      "scoring": {
+        "stage": 5, "businessModel": 4, "team": 4, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "أكبر منصة توصيل بقالات في السعودية، تغطية واسعة، لكن المنافسة تشتد",
+      "source": "manual",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "foodics",
+      "nameAr": "فودكس",
+      "nameEn": "Foodics",
+      "logo": "",
+      "sectorId": "saas",
+      "stage": "series-b",
+      "foundedYear": 2014,
+      "city": "الرياض",
+      "website": "https://foodics.com",
+      "employeeRange": "201-500",
+      "description": "نظام إدارة مطاعم سحابي — نقاط بيع + إدارة مخزون + تحليلات",
+      "founders": ["أحمد الزيني"],
+      "tags": ["restaurant-tech", "POS", "SaaS", "B2B"],
+      "scoring": {
+        "stage": 4, "businessModel": 5, "team": 5, "growth": 4,
+        "expansion": 5, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "نظام المطاعم الأول في المنطقة، توسع في 5 دول، إيرادات SaaS متكررة، فريق قوي",
+      "source": "magnitt",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "tabby",
+      "nameAr": "تابي",
+      "nameEn": "Tabby",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "series-c+",
+      "foundedYear": 2019,
+      "city": "الرياض",
+      "website": "https://tabby.ai",
+      "employeeRange": "201-500",
+      "description": "منصة BNPL ودفع بالتقسيط — المنافس الرئيسي لتمارا",
+      "founders": ["حسام عرب"],
+      "tags": ["BNPL", "payments", "B2C"],
+      "scoring": {
+        "stage": 5, "businessModel": 5, "team": 4, "growth": 5,
+        "expansion": 4, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "ثاني أكبر لاعب BNPL، تقييم $1.5B، توسع في الإمارات ومصر والكويت",
+      "source": "magnitt",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "trukker",
+      "nameAr": "تراكر",
+      "nameEn": "TruKKer",
+      "logo": "",
+      "sectorId": "logistics",
+      "stage": "series-b",
+      "foundedYear": 2016,
+      "city": "الرياض",
+      "website": "https://trukker.com",
+      "employeeRange": "51-200",
+      "description": "منصة نقل بضائع رقمية — تربط الشاحنات بالشحنات",
+      "founders": ["قوروش تاج فر"],
+      "tags": ["freight", "trucking", "B2B"],
+      "scoring": {
+        "stage": 4, "businessModel": 4, "team": 4, "growth": 3,
+        "expansion": 4, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "رائدة النقل الرقمي في المنطقة، سوق ضخم غير رقمي، شراكات حكومية",
+      "source": "svc",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "cura",
+      "nameAr": "كيورا",
+      "nameEn": "Cura",
+      "logo": "",
+      "sectorId": "healthtech",
+      "stage": "series-a",
+      "foundedYear": 2017,
+      "city": "الرياض",
+      "website": "https://cura.healthcare",
+      "employeeRange": "51-200",
+      "description": "تطبيق استشارات طبية عن بعد — أطباء معتمدين 24/7",
+      "founders": ["وليد حسنين"],
+      "tags": ["telemedicine", "healthcare", "B2C"],
+      "scoring": {
+        "stage": 3, "businessModel": 3, "team": 4, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 3,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "التطبيب عن بعد سوق صاعد، دعم حكومي قوي بعد كورونا، لكن نموذج الأعمال يحتاج إثبات",
+      "source": "manual",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "moyasar",
+      "nameAr": "ميسر",
+      "nameEn": "Moyasar",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "series-a",
+      "foundedYear": 2015,
+      "city": "الرياض",
+      "website": "https://moyasar.com",
+      "employeeRange": "11-50",
+      "description": "بوابة دفع إلكتروني للمطورين والشركات — API-first",
+      "founders": ["عبدالله العثمان"],
+      "tags": ["payments", "API", "B2B"],
+      "scoring": {
+        "stage": 3, "businessModel": 5, "team": 4, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "بوابة دفع سعودية بنهج API-first، تنافس Stripe محلياً، نموذج واضح",
+      "source": "manual",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "rewaa",
+      "nameAr": "رواء",
+      "nameEn": "Rewaa",
+      "logo": "",
+      "sectorId": "saas",
+      "stage": "series-a",
+      "foundedYear": 2018,
+      "city": "الرياض",
+      "website": "https://rewaatech.com",
+      "employeeRange": "51-200",
+      "description": "نظام إدارة مخزون ومبيعات للتجزئة — متوافق مع هيئة الزكاة",
+      "founders": ["عبدالله الشقاوي"],
+      "tags": ["inventory", "retail", "SaaS", "B2B"],
+      "scoring": {
+        "stage": 3, "businessModel": 5, "team": 4, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "حل SaaS لإدارة التجزئة متوافق مع الفوترة الإلكترونية، سوق إلزامي",
+      "source": "svc",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "lean-tech",
+      "nameAr": "لين تكنولوجيز",
+      "nameEn": "Lean Technologies",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "series-a",
+      "foundedYear": 2019,
+      "city": "الرياض",
+      "website": "https://leantech.me",
+      "employeeRange": "51-200",
+      "description": "بنية تحتية للخدمات المصرفية المفتوحة (Open Banking) في المنطقة",
+      "founders": ["هشام الفالح", "عاصم السليمان"],
+      "tags": ["open-banking", "API", "infrastructure", "B2B"],
+      "scoring": {
+        "stage": 3, "businessModel": 4, "team": 5, "growth": 5,
+        "expansion": 4, "regulatoryRisk": 3,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "بنية Open Banking الأولى في المنطقة، SAMA تدعم التوجه، فريق تقني ممتاز، السوق مبكر جداً",
+      "source": "magnitt",
+      "sourceRef": "",
+      "addedAt": "2026-03-09T19:00:00Z",
+      "updatedAt": "2026-03-09T19:00:00Z"
+    }
+  ],
+
+  "rounds": [
+    { "id": "tamara-c", "companyId": "tamara", "type": "series-c+", "amountUSD": 340000000, "date": "2025-01-15", "investorIds": ["sanabil", "snb-capital"], "leadInvestorId": "sanabil", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "tamara-b", "companyId": "tamara", "type": "series-b", "amountUSD": 100000000, "date": "2023-03-10", "investorIds": ["sanabil", "checkout"], "leadInvestorId": "sanabil", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "tamara-a", "companyId": "tamara", "type": "series-a", "amountUSD": 40000000, "date": "2021-08-20", "investorIds": ["checkout"], "leadInvestorId": "checkout", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "tabby-c", "companyId": "tabby", "type": "series-c+", "amountUSD": 200000000, "date": "2024-05-22", "investorIds": ["wellington", "mubadala"], "leadInvestorId": "wellington", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "tabby-b", "companyId": "tabby", "type": "series-b", "amountUSD": 58000000, "date": "2022-08-15", "investorIds": ["sequoia-india", "stv"], "leadInvestorId": "sequoia-india", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "salla-b", "companyId": "salla", "type": "series-b", "amountUSD": 130000000, "date": "2024-06-10", "investorIds": ["svc-fund", "sanabil"], "leadInvestorId": "svc-fund", "isUndisclosed": false, "source": "svc" },
+    { "id": "nana-c", "companyId": "nana", "type": "series-c+", "amountUSD": 133000000, "date": "2024-03-20", "investorIds": ["svc-fund", "sanabil", "merak"], "leadInvestorId": "svc-fund", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "foodics-b", "companyId": "foodics", "type": "series-b", "amountUSD": 170000000, "date": "2022-02-01", "investorIds": ["stv", "sanabil", "prosus"], "leadInvestorId": "prosus", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "trukker-b", "companyId": "trukker", "type": "series-b", "amountUSD": 96000000, "date": "2022-01-15", "investorIds": ["investcorp", "ilp"], "leadInvestorId": "investcorp", "isUndisclosed": false, "source": "svc" },
+    { "id": "cura-a", "companyId": "cura", "type": "series-a", "amountUSD": 15000000, "date": "2023-09-01", "investorIds": ["impact46", "svc-fund"], "leadInvestorId": "impact46", "isUndisclosed": false, "source": "manual" },
+    { "id": "moyasar-a", "companyId": "moyasar", "type": "series-a", "amountUSD": 21000000, "date": "2023-07-15", "investorIds": ["svc-fund", "raed"], "leadInvestorId": "svc-fund", "isUndisclosed": false, "source": "manual" },
+    { "id": "rewaa-a", "companyId": "rewaa", "type": "series-a", "amountUSD": 36000000, "date": "2024-01-20", "investorIds": ["sanabil", "stv"], "leadInvestorId": "sanabil", "isUndisclosed": false, "source": "svc" },
+    { "id": "lean-a", "companyId": "lean-tech", "type": "series-a", "amountUSD": 33000000, "date": "2023-03-05", "investorIds": ["stv", "sequoia-india"], "leadInvestorId": "sequoia-india", "isUndisclosed": false, "source": "magnitt" }
+  ],
+
+  "investors": [
+    { "id": "sanabil", "nameAr": "سنابل للاستثمار", "nameEn": "Sanabil Investments", "type": "government", "focusSectors": ["fintech", "ecommerce", "logistics", "saas"], "focusStages": ["series-a", "series-b", "series-c+"], "description": "الذراع الاستثماري لصندوق الاستثمارات العامة", "source": "manual" },
+    { "id": "svc-fund", "nameAr": "صندوق الجريء", "nameEn": "SVC", "type": "government", "focusSectors": ["fintech", "healthtech", "saas", "ecommerce"], "focusStages": ["seed", "series-a", "series-b"], "description": "شركة السعودية للاستثمار الجريء", "source": "svc" },
+    { "id": "stv", "nameAr": "STV", "nameEn": "STV", "type": "vc", "focusSectors": ["fintech", "saas", "logistics"], "focusStages": ["series-a", "series-b"], "description": "أكبر VC مستقل في المنطقة", "source": "magnitt" },
+    { "id": "snb-capital", "nameAr": "SNB كابيتال", "nameEn": "SNB Capital", "type": "cvc", "focusSectors": ["fintech"], "focusStages": ["series-b", "series-c+"], "description": "الذراع الاستثماري للبنك الأهلي", "source": "manual" },
+    { "id": "impact46", "nameAr": "إمباكت 46", "nameEn": "Impact46", "type": "vc", "focusSectors": ["healthtech", "saas", "edtech"], "focusStages": ["seed", "series-a"], "description": "VC سعودي يركز على المراحل المبكرة", "source": "manual" },
+    { "id": "raed", "nameAr": "رائد فنتشرز", "nameEn": "Raed Ventures", "type": "vc", "focusSectors": ["fintech", "ecommerce", "saas"], "focusStages": ["seed", "series-a"], "description": "VC سعودي منذ 2014", "source": "manual" },
+    { "id": "merak", "nameAr": "ميراك كابيتال", "nameEn": "Merak Capital", "type": "vc", "focusSectors": ["foodtech", "logistics"], "focusStages": ["series-a", "series-b"], "description": "", "source": "manual" },
+    { "id": "prosus", "nameAr": "بروسوس", "nameEn": "Prosus", "type": "vc", "focusSectors": ["saas", "foodtech", "ecommerce"], "focusStages": ["series-b", "series-c+"], "description": "ذراع الاستثمار التقني لمجموعة Naspers", "source": "magnitt" },
+    { "id": "sequoia-india", "nameAr": "سيكويا إنديا", "nameEn": "Sequoia India / SEA", "type": "vc", "focusSectors": ["fintech", "saas"], "focusStages": ["series-a", "series-b"], "description": "", "source": "magnitt" },
+    { "id": "checkout", "nameAr": "تشيك أوت", "nameEn": "Checkout.com Ventures", "type": "cvc", "focusSectors": ["fintech"], "focusStages": ["series-a", "series-b"], "description": "", "source": "magnitt" },
+    { "id": "wellington", "nameAr": "ويلنغتون", "nameEn": "Wellington Management", "type": "vc", "focusSectors": ["fintech"], "focusStages": ["series-c+"], "description": "", "source": "magnitt" },
+    { "id": "mubadala", "nameAr": "مبادلة", "nameEn": "Mubadala", "type": "government", "focusSectors": ["fintech", "logistics"], "focusStages": ["series-c+"], "description": "صندوق أبوظبي السيادي", "source": "magnitt" },
+    { "id": "investcorp", "nameAr": "إنفستكورب", "nameEn": "Investcorp", "type": "vc", "focusSectors": ["logistics", "fintech"], "focusStages": ["series-b", "series-c+"], "description": "", "source": "manual" },
+    { "id": "ilp", "nameAr": "ILP", "nameEn": "ILP Group", "type": "vc", "focusSectors": ["logistics"], "focusStages": ["series-a", "series-b"], "description": "", "source": "manual" }
+  ],
+
+  "insights": [
+    {
+      "id": "insight-001",
+      "title": "السعودية تتصدر الاستثمار الجريء في المنطقة للعام الثالث",
+      "content": "بلغ حجم الاستثمار الجريء في السعودية $2.1 مليار في 2025، بنمو 34% عن العام السابق",
+      "category": "trend",
+      "relatedCompanyIds": [],
+      "relatedSectorIds": ["fintech", "ecommerce"],
+      "url": "",
+      "date": "2026-01-15",
+      "source": "svc"
+    },
+    {
+      "id": "insight-002",
+      "title": "SAMA تصدر تراخيص Open Banking لأول مرة",
+      "content": "البنك المركزي السعودي يمنح تراخيص Open Banking لـ 3 شركات فنتك",
+      "category": "regulation",
+      "relatedCompanyIds": ["lean-tech"],
+      "relatedSectorIds": ["fintech"],
+      "url": "",
+      "date": "2025-11-20",
+      "source": "news-scrape"
+    },
+    {
+      "id": "insight-003",
+      "title": "منشآت تطلق برنامج تسريع جديد للشركات الناشئة الصحية",
+      "content": "البرنامج يستهدف 50 شركة ناشئة في قطاع التقنية الصحية مع تمويل أولي",
+      "category": "news",
+      "relatedCompanyIds": ["cura"],
+      "relatedSectorIds": ["healthtech"],
+      "url": "",
+      "date": "2025-12-05",
+      "source": "monshaat"
+    }
+  ]
+}
