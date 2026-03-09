@@ -660,10 +660,11 @@ function sourceBadge(sourceId, size) {
 // ══════════════════════════════════════
 
 function getMarketGaps() {
-  // Sectors with high TAM/growth but few deals
+  // Sectors with high TAM/growth but few deals — exclude crowded sectors
   return DATA.sectors.filter(s => {
     const sc = s.scoring;
-    return (sc.tam >= 4 || sc.growth >= 4) && (sc.deals <= 2 || sc.companyCount <= 2);
+    const isCrowded = sc.competition <= 2;
+    return !isCrowded && (sc.tam >= 4 || sc.growth >= 4) && (sc.deals <= 2 || sc.companyCount <= 2);
   }).map(s => ({
     sector: s,
     reason: `سوق ${s.scoring.tam >= 4 ? 'كبير' : 'نامي'} (${s.scoring.companyCount} شركات فقط، ${s.scoring.dealCount || 0} صفقات) — فرصة دخول مبكر`
