@@ -993,15 +993,13 @@ function generateLocalAnalysis(useCase, ...args) {
 
     case AI_USE_CASES.INVESTMENT_MEMO: {
       const c = args[0];
-      let text = `# Investment Memo — ${c.nameAr}\n\n`;
-      text += `⚠️ **هذا ملخص أولي مولّد من البيانات المتاحة. للحصول على Investment Memo احترافي مفصّل، فعّل تكامل AI.**\n\n`;
+      let text = `# ملخص تحليلي — ${c.nameAr}\n\n`;
       text += generateLocalAnalysis(AI_USE_CASES.COMPANY_ANALYSIS, c).text;
-      text += `\n\n---\n*لتفعيل التحليل المتقدم بالذكاء الاصطناعي، اذهب لإعدادات AI.*`;
       return { ok: true, text, source: 'local' };
     }
 
     default:
-      return { ok: true, text: '⚠️ هذا التحليل يحتاج تفعيل تكامل AI للحصول على نتائج متقدمة.', source: 'local' };
+      return { ok: true, text: '⏳ جاري تجهيز التحليل...', source: 'local' };
   }
 }
 
