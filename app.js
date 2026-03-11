@@ -998,8 +998,69 @@ function generateLocalAnalysis(useCase, ...args) {
       return { ok: true, text, source: 'local' };
     }
 
+    case AI_USE_CASES.RISK_ASSESSMENT: {
+      const c = args[0];
+      const sec = getSector(c.sectorId);
+      const sc = c.scoring;
+      let text = `## تقييم المخاطر — ${c.nameAr}\n\n`;
+
+      // مخاطر السوق
+      text += `### 1. مخاطر السوق\n`;
+      const secSc = sec?.scoring;
+      if (secSc) {
+        const compLevel = secSc.competition >= 4 ? 'منخفضة (منافسة محدودة)' : secSc.competition >= 3 ? 'متوسطة' : 'مرتفعة (سوق مزدحم)';
+        text += `- شدة المنافسة: **${compLevel}** (${secSc.competition}/5)\n`;
+        text += `- حجم السوق: ${secSc.tam >= 4 ? '**كبير — فرصة واسعة**' : secSc.tam >= 3 ? '**متوسط**' : '**محدود — سقف نمو منخفض**'} (${secSc.tam}/5)\n`;
+        text += `- نمو القطاع: ${secSc.growth >= 4 ? '**سريع**' : secSc.growth >= 3 ? '**معتدل**' : '**بطيء**'} (${secSc.growth}/5)\n`;
+      } else {
+        text += `- لا بيانات كافية عن القطاع\n`;
+      }
+
+      // مخاطر التنفيذ
+      text += `\n### 2. مخاطر التنفيذ\n`;
+      text += `- قوة الفريق: ${sc.team >= 4 ? '**فريق قوي — مخاطر منخفضة** ✅' : sc.team >= 3 ? '**فريق جيد — مخاطر معتدلة**' : '**فريق ضعيف — مخاطر مرتفعة** ⚠️'} (${sc.team}/5)\n`;
+      text += `- نموذج الأعمال: ${sc.businessModel >= 4 ? '**واضح ومثبت** ✅' : sc.businessModel >= 3 ? '**واعد لكن يحتاج إثبات**' : '**غير واضح — خطر** ⚠️'} (${sc.businessModel}/5)\n`;
+      text += `- المرحلة: **${getStageAr(c.stage)}** ${c.stage === 'seed' || c.stage === 'pre-seed' ? '— مرحلة مبكرة (مخاطر أعلى)' : c.stage === 'A' || c.stage === 'B' ? '— مرحلة نمو (مخاطر معتدلة)' : '— مرحلة متقدمة (مخاطر أقل)'}\n`;
+
+      // مخاطر تنظيمية
+      text += `\n### 3. مخاطر تنظيمية\n`;
+      text += `- المخاطر التنظيمية: ${sc.regulatoryRisk >= 4 ? '**منخفضة — بيئة تنظيمية مستقرة** ✅' : sc.regulatoryRisk >= 3 ? '**متوسطة — بعض التحديات التنظيمية**' : '**مرتفعة — قيود تنظيمية كبيرة** ⚠️'} (${sc.regulatoryRisk}/5)\n`;
+      if (secSc && secSc.vision2030 >= 4) text += `- دعم رؤية 2030: **قوي — يخفف المخاطر التنظيمية** ✅\n`;
+
+      // مخاطر مالية
+      text += `\n### 4. مخاطر مالية\n`;
+      const totalFunding = sc.totalFunding || 0;
+      text += `- إجمالي التمويل: **${formatMoney(totalFunding)}**\n`;
+      text += `- جودة المستثمرين: ${sc.investorQuality >= 4 ? '**مستثمرين من الدرجة الأولى — ثقة عالية** ✅' : sc.investorQuality >= 3 ? '**مستثمرين جيدين**' : '**مستثمرين غير معروفين — مخاطر أعلى** ⚠️'} (${sc.investorQuality}/5)\n`;
+      text += `- النمو: ${sc.growth >= 4 ? '**سريع — يدعم الجولات القادمة** ✅' : sc.growth >= 3 ? '**معتدل**' : '**بطيء — صعوبة في جمع تمويل إضافي** ⚠️'} (${sc.growth}/5)\n`;
+
+      // مخاطر التوسع
+      text += `\n### 5. مخاطر التوسع\n`;
+      text += `- قابلية التوسع: ${sc.expansion >= 4 ? '**عالية — توسع إقليمي/عالمي ممكن** ✅' : sc.expansion >= 3 ? '**متوسطة**' : '**محدودة — سوق محلي فقط** ⚠️'} (${sc.expansion}/5)\n`;
+
+      // المخاطر المكتشفة
+      text += `\n### 🚩 المخاطر المكتشفة\n`;
+      if (sc.riskFlags && sc.riskFlags.length > 0) {
+        sc.riskFlags.forEach(f => { text += `- ${f.icon} **${f.label}**\n`; });
+      } else {
+        text += `- لا مخاطر رئيسية مكتشفة ✅\n`;
+      }
+
+      // التقييم النهائي
+      text += `\n### التقييم النهائي\n`;
+      const avgRisk = ((sc.team + sc.businessModel + sc.regulatoryRisk + sc.expansion) / 4);
+      if (avgRisk >= 3.5 && sc.riskFlags.length <= 1) {
+        text += `**مستوى المخاطر: مقبول** ✅\nالشركة تتمتع بمؤشرات إيجابية ومخاطر محدودة. مناسبة للاستثمار مع المتابعة الدورية.`;
+      } else if (avgRisk >= 2.5 || sc.riskFlags.length <= 3) {
+        text += `**مستوى المخاطر: يحتاج حذر** ⚠️\nهناك مخاطر ملحوظة يجب دراستها قبل القرار. يُنصح بدراسة تفصيلية (Due Diligence) قبل الاستثمار.`;
+      } else {
+        text += `**مستوى المخاطر: مرتفع جداً** 🔴\nمخاطر متعددة وجوهرية. يُنصح بالتريث وعدم الاستثمار قبل معالجة المخاطر الأساسية.`;
+      }
+      return { ok: true, text, source: 'local' };
+    }
+
     default:
-      return { ok: true, text: '⏳ جاري تجهيز التحليل...', source: 'local' };
+      return { ok: true, text: '⏳ التحليل غير متوفر حالياً.', source: 'local' };
   }
 }
 
