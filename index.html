@@ -1285,6 +1285,17 @@ loadData().then(() => {
   renderSidebar();
   renderDashboard();
 });
+
+// ══════════════════════════════════════
+// VISIT TRACKER — يسجّل الزيارات بدون ما يأثر على الأداء
+// ══════════════════════════════════════
+(function(){
+  try {
+    // 1. عدّاد مخفي عبر pixel (hits.seeyoufarm.com — مجاني)
+    var img = new Image();
+    img.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fideas-pipeline.github.io%2Fvc-saudi%2F&count_bg=%231a1c2e&title_bg=%231a1c2e&title=z&edge_flat=true&t=' + Date.now();
+  } catch(e){}
+})();
 </script>
 </body>
 </html>
