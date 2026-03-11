@@ -1028,7 +1028,7 @@ function showAIResult(title, text, source) {
       ${badge}
     </div>
     <div style="color:var(--text2);line-height:1.8;font-size:.92em">${html}</div>
-    ${source === 'local' ? `<div style="margin-top:18px;padding:12px;background:var(--bg3);border-radius:var(--radius2);font-size:.82em;color:var(--text3)">💡 هذا تحليل أولي من البيانات. لتحليل أعمق بالذكاء الاصطناعي، فعّل AI من الإعدادات.</div>` : ''}
+    ${source === 'local' ? `<div style="margin-top:18px;padding:12px;background:var(--bg3);border-radius:var(--radius2);font-size:.82em;color:var(--text3)">💡 هذا تحليل أولي بناءً على البيانات المتوفرة.</div>` : ''}
   `;
   document.getElementById('modal-overlay').classList.add('show');
 }
