@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1.0",
-    "lastUpdated": "2026-03-09T19:00:00Z",
+    "lastUpdated": "2026-03-16T15:00:00Z",
     "currency": "USD"
   },
 
@@ -64,6 +64,11 @@
       "id": "cleantech", "nameAr": "تقنية نظيفة", "nameEn": "CleanTech", "icon": "🌱",
       "description": "الطاقة المتجددة، الاستدامة، وإدارة الموارد",
       "scoring": { "tam": 4, "growth": 5, "competition": 5, "vision2030": 5, "totalScore": 0, "rating": "" }
+    },
+    {
+      "id": "semiconductors", "nameAr": "أشباه موصلات", "nameEn": "Semiconductors", "icon": "🔌",
+      "description": "تصميم وتصنيع الشرائح الإلكترونية، الرقميات، والelectronics",
+      "scoring": { "tam": 5, "growth": 5, "competition": 5, "vision2030": 5, "totalScore": 0, "rating": "" }
     }
   ],
 
@@ -317,6 +322,181 @@
       "sourceRef": "",
       "addedAt": "2026-03-09T19:00:00Z",
       "updatedAt": "2026-03-09T19:00:00Z"
+    },
+    {
+      "id": "solidrange",
+      "nameAr": "سوليد رينج",
+      "nameEn": "Solidrange",
+      "logo": "",
+      "sectorId": "saas",
+      "stage": "seed",
+      "foundedYear": 2024,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "1-10",
+      "description": "شركة网络安全 سعودية — حماية الشبكات والبيانات",
+      "founders": [],
+      "tags": ["cybersecurity", "network-security", "B2B"],
+      "scoring": {
+        "stage": 1, "businessModel": 3, "team": 3, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة网络安全 سعودية حديثة في مرحلة Seed، سوق الأمن السيبراني ينمو محلياً",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "rimal-semiconductors",
+      "nameAr": "ريمال لأشباه الموصلات",
+      "nameEn": "Rimal Semiconductors",
+      "logo": "",
+      "sectorId": "semiconductors",
+      "stage": "bridge",
+      "foundedYear": 2022,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "11-50",
+      "description": "شركة تصميم شرائح إلكترونية سعودية — تصمم رقميات متقدمة",
+      "founders": [],
+      "tags": ["semiconductors", "chip-design", "electronics", "B2B"],
+      "scoring": {
+        "stage": 2, "businessModel": 3, "team": 4, "growth": 5,
+        "expansion": 3, "regulatoryRisk": 3,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة سعودية رائدة في تصميم الشرائح الإلكترونية، جولة bridge لتمويل التوسع",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "infobrim",
+      "nameAr": "إنفوبريم",
+      "nameEn": "Infobrim",
+      "logo": "",
+      "sectorId": "saas",
+      "stage": "seed",
+      "foundedYear": 2025,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "1-10",
+      "description": "شركة تقنية سعودية — جمعيت 3.5 مليون دولار في أول جولة",
+      "founders": [],
+      "tags": ["SaaS", "B2B"],
+      "scoring": {
+        "stage": 1, "businessModel": 3, "team": 3, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة سعودية حديثة في مرحلة Seed، أول جولة 3.5 مليون دولار",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "cashin",
+      "nameAr": "كاش إن",
+      "nameEn": "CASHIN",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "series-a",
+      "foundedYear": 2022,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "11-50",
+      "description": "شركة fintech سعودية — حلول دفع وصرف إلكترونية",
+      "founders": [],
+      "tags": ["fintech", "payments", "B2B"],
+      "scoring": {
+        "stage": 3, "businessModel": 4, "team": 4, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة fintech سعودية في مرحلة Series A، قيادتها Impact46",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "declic",
+      "nameAr": "ديكلك",
+      "nameEn": "Declic",
+      "logo": "",
+      "sectorId": "saas",
+      "stage": "seed",
+      "foundedYear": 2025,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "1-10",
+      "description": "شركة SaaS سعودية — جولة Seed بقيمة مليون دولار",
+      "founders": [],
+      "tags": ["SaaS", "B2B"],
+      "scoring": {
+        "stage": 1, "businessModel": 3, "team": 3, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة SaaS سعودية حديثة، جولة Seed بمليون دولار",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "routech-express",
+      "nameAr": "روتيك إكسبريس",
+      "nameEn": "Routech Express",
+      "logo": "",
+      "sectorId": "logistics",
+      "stage": "pre-seed",
+      "foundedYear": 2025,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "1-10",
+      "description": "شركة لوجستيك سعودية — توصيل وتتبع للشحنات",
+      "founders": [],
+      "tags": ["logistics", "delivery", "B2B"],
+      "scoring": {
+        "stage": 1, "businessModel": 3, "team": 3, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 4,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة لوجستيك سعودية في مرحلة Pre-Seed، 3.75 مليون ريال",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
+    },
+    {
+      "id": "edge-finance",
+      "nameAr": "إيدج فاينانس",
+      "nameEn": "Edge Finance",
+      "logo": "",
+      "sectorId": "fintech",
+      "stage": "licensed",
+      "foundedYear": 2024,
+      "city": "الرياض",
+      "website": "",
+      "employeeRange": "11-50",
+      "description": "شركة تمويل مرخصة من SAMA — ترخيص جديد يرفع العدد إلى 71",
+      "founders": [],
+      "tags": ["fintech", "lending", "licensed", "B2C"],
+      "scoring": {
+        "stage": 2, "businessModel": 4, "team": 3, "growth": 4,
+        "expansion": 3, "regulatoryRisk": 5,
+        "totalScore": 0, "rating": "", "riskFlags": []
+      },
+      "opportunitySummary": "شركة تمويل مرخصة من البنك المركزي السعودي،件数 71",
+      "source": "news-scrape",
+      "sourceRef": "",
+      "addedAt": "2026-03-16T15:00:00Z",
+      "updatedAt": "2026-03-16T15:00:00Z"
     }
   ],
 
@@ -333,7 +513,13 @@
     { "id": "cura-a", "companyId": "cura", "type": "series-a", "amountUSD": 15000000, "date": "2023-09-01", "investorIds": ["impact46", "svc-fund"], "leadInvestorId": "impact46", "isUndisclosed": false, "source": "manual" },
     { "id": "moyasar-a", "companyId": "moyasar", "type": "series-a", "amountUSD": 21000000, "date": "2023-07-15", "investorIds": ["svc-fund", "raed"], "leadInvestorId": "svc-fund", "isUndisclosed": false, "source": "manual" },
     { "id": "rewaa-a", "companyId": "rewaa", "type": "series-a", "amountUSD": 36000000, "date": "2024-01-20", "investorIds": ["sanabil", "stv"], "leadInvestorId": "sanabil", "isUndisclosed": false, "source": "svc" },
-    { "id": "lean-a", "companyId": "lean-tech", "type": "series-a", "amountUSD": 33000000, "date": "2023-03-05", "investorIds": ["stv", "sequoia-india"], "leadInvestorId": "sequoia-india", "isUndisclosed": false, "source": "magnitt" }
+    { "id": "lean-a", "companyId": "lean-tech", "type": "series-a", "amountUSD": 33000000, "date": "2023-03-05", "investorIds": ["stv", "sequoia-india"], "leadInvestorId": "sequoia-india", "isUndisclosed": false, "source": "magnitt" },
+    { "id": "solidrange-seed", "companyId": "solidrange", "type": "seed", "amountUSD": 2400000, "date": "2026-02-16", "investorIds": [], "leadInvestorId": null, "isUndisclosed": true, "source": "news-scrape" },
+    { "id": "rimal-bridge", "companyId": "rimal-semiconductors", "type": "bridge", "amountUSD": 0, "date": "2026-03-04", "investorIds": [], "leadInvestorId": null, "isUndisclosed": true, "source": "news-scrape" },
+    { "id": "infobrim-seed", "companyId": "infobrim", "type": "seed", "amountUSD": 3500000, "date": "2026-03-15", "investorIds": [], "leadInvestorId": null, "isUndisclosed": true, "source": "news-scrape" },
+    { "id": "cashin-a", "companyId": "cashin", "type": "series-a", "amountUSD": 16000000, "date": "2026-02-16", "investorIds": ["impact46"], "leadInvestorId": "impact46", "isUndisclosed": false, "source": "news-scrape" },
+    { "id": "declic-seed", "companyId": "declic", "type": "seed", "amountUSD": 1000000, "date": "2026-01-27", "investorIds": [], "leadInvestorId": null, "isUndisclosed": true, "source": "news-scrape" },
+    { "id": "routech-preseed", "companyId": "routech-express", "type": "pre-seed", "amountUSD": 1000000, "date": "2026-02-09", "investorIds": [], "leadInvestorId": null, "isUndisclosed": true, "source": "news-scrape" }
   ],
 
   "investors": [
@@ -386,6 +572,61 @@
       "url": "",
       "date": "2025-12-05",
       "source": "monshaat"
+    },
+    {
+      "id": "insight-004",
+      "title": "استثمارات الشركات الناشئة في الشرق الأوسط تصل 327 مليون دولار في فبراير 2026",
+      "content": "شهد شهر فبراير 2026 استثمارات بقيمة 327 مليون دولار في شركات الناشئة في منطقة الشرق الأوسط وشمال أفريقيا",
+      "category": "trend",
+      "relatedCompanyIds": [],
+      "relatedSectorIds": [],
+      "url": "",
+      "date": "2026-03-09",
+      "source": "news-scrape"
+    },
+    {
+      "id": "insight-005",
+      "title": "إطلاق مسرعة VMS في مصر لدعم التوسع نحو السوق السعودي",
+      "content": "مسرعة VMS تطلق برنامجاً في مصر لتمكين الشركات الناشئة من التوسع إلى السوق السعودي",
+      "category": "news",
+      "relatedCompanyIds": [],
+      "relatedSectorIds": ["ecommerce", "fintech"],
+      "url": "",
+      "date": "2026-03-16",
+      "source": "news-scrape"
+    },
+    {
+      "id": "insight-006",
+      "title": "SC Ventures وSanabil Studio توقعان مذكرة تفاهم لبناء شركات fintech لل SMEs",
+      "content": "شراكة جديدة بين SC Ventures وSanabil Studio لتمويل وبناء شركات تقنية مالية تستهدف المنشآت الصغيرة والمتوسطة في السعودية",
+      "category": "news",
+      "relatedCompanyIds": [],
+      "relatedSectorIds": ["fintech"],
+      "url": "",
+      "date": "2026-02-04",
+      "source": "news-scrape"
+    },
+    {
+      "id": "insight-007",
+      "title": "البنك المركزي السعودي يمنح Edge Finance ترخيص تمويل جديد",
+      "content": "منح البنك المركزي السعودي شركة Edge Finance ترخيص تمويل جديد، ليصبح عدد الشركات المرخصة 71 شركة",
+      "category": "regulation",
+      "relatedCompanyIds": ["edge-finance"],
+      "relatedSectorIds": ["fintech"],
+      "url": "",
+      "date": "2026-03-14",
+      "source": "news-scrape"
+    },
+    {
+      "id": "insight-008",
+      "title": "Outliers وSVC تطلقان برنامج Fellowship 2026",
+      "content": "برنامج جديد لتأهيل قادة التقنية في السعودية والشرق الأوسط بالتعاون بين Outliers وشركة الاستثمار الجريء",
+      "category": "news",
+      "relatedCompanyIds": [],
+      "relatedSectorIds": [],
+      "url": "",
+      "date": "2026-01-14",
+      "source": "news-scrape"
     }
   ]
 }
